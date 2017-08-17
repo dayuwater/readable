@@ -10,7 +10,20 @@ h3{
   margin-top: 0px;
 }
 
-.blog-overview{
+.blog-overview {
+  margin-top: 20px;
+  margin-bottom: 30px;
+}
+
+.category{
+  text-align: center;
+}
+
+.category.current{
+  text-decoration: underline;
+}
+
+.comment{
   margin-top: 20px;
   margin-bottom: 30px;
 }
