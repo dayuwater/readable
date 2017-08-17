@@ -17,9 +17,7 @@ class CategoryPage extends Component {
                     <BlogOverview />
                     <BlogOverview />
 
-                    <Comment />
-                    <Comment />
-                    <Comment />
+                   
                 </div>
             </div>
 
