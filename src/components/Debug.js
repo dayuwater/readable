@@ -1,14 +1,13 @@
 import React, {Component} from 'react'
-
-class BlogPage extends Component{
-
+class Debug extends Component{
     render(){
         return(
             <div>
-                BlogPage
+                Debug
             </div>
         )
     }
+
 }
 
-export default BlogPage;
+export default Debug
