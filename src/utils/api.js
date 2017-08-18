@@ -1,5 +1,5 @@
 const api = "http://localhost:5001"
-const error = "Check your network connection."
+export const error = "Check your network connection."
 
 
 const headers =  {
@@ -48,4 +48,15 @@ export const voteComment = (commentId, option) => (
             option: option
         })
     }).then(res => res.json()).catch(err => error)
+)
+
+export const addPost = (post) => (
+    fetch(`${api}/posts`, {
+        ...postOptions,
+        body: JSON.stringify({
+            ...post
+        })
+    
+    }).then(res => res.json()).catch(err => error)
+
 )
