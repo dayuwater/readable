@@ -6,6 +6,7 @@ import Comment from './components/Comment';
 import CategoryPage from './components/CategoryPage'
 import Debug from './components/Debug'
 import BlogPage from './components/BlogPage'
+import BlogEditPage from './components/BlogEditPage'
 import {Route, Link} from 'react-router-dom'
 
 
@@ -17,6 +18,7 @@ class App extends Component {
         <Route exact path="/" component={CategoryPage} />
         <Route exact path="/debug" component={Debug} />
         <Route exact path="/blog" component={BlogPage} /> 
+        <Route path="/blog_edit" component={BlogEditPage} />
 
       </div>
     );
