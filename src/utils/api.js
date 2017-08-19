@@ -15,6 +15,13 @@ const postOptions = {
     }
 }
 
+const deleteOptions = {
+    method: 'DELETE',
+    headers: {
+        ...headers
+    }
+}
+
 export const getAllCategories = _ => (
     fetch(`${api}/categories`, { headers })
     .then(res => res.json()).then(json => json.categories)
@@ -24,12 +31,15 @@ export const getAllCategories = _ => (
 
 export const getAllPosts = _ => (
     fetch(`${api}/posts`, { headers })
-        .then(res => res.json()).catch(err => error)
+        .then(res => res.json())
+        .then(arr => arr.filter(obj => obj.deleted == false))
+        .catch(err => error)
 )
 
 export const getComments = (postId) => (
     fetch(`${api}/posts/${postId}/comments`, {headers})
-        .then(res => res.json()).catch(err => error)
+        .then(res => res.json())
+        .catch(err => error)
 )
 
 export const votePost = (postId, option) => (
@@ -60,3 +70,26 @@ export const addPost = (post) => (
     }).then(res => res.json()).catch(err => error)
 
 )
+
+// PUT /posts/:id
+export const editPost = (post) => {}
+
+// DELETE /posts/:id
+export const deletePost = (postId) => (
+    fetch(`${api}/posts/${postId}`, deleteOptions)
+    .then(res => res.text()).catch(err => error)
+)
+
+// POST /comments
+export const addComment = (comment) => {}
+
+// PUT /comments/:id
+export const editComment = (commentId) => {}
+
+// DELETE /comments/:id
+export const deleteComment = (commentId) => (
+    fetch(`${api}/comments/${commentId}`, deleteOptions)
+    .then(res => res.json()).catch(err => error)
+)
+
+

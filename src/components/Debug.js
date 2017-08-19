@@ -13,6 +13,8 @@ const testBlog = {
   "category":"redux"
 }
 
+const testPost = "8xf0y6ziyjabvozdd253nd"
+
 
 class Debug extends Component{
 
@@ -43,9 +45,19 @@ class Debug extends Component{
         API.addPost(blog).then(res => console.log(res))
     }
 
+    deleteBlog = (postId) => {
+        API.deletePost(postId).then(res => console.log(res))
+    }
+
+    deleteComment = (commentId) => {
+        API.deleteComment(commentId).then(res => console.log(res))
+    }
+
+
     render(){
         return(
             <div>
+                <h1> API tests </h1>
                 <p> Gets </p>
                 <button onClick={_ => this.getAllCategories()}> Get All Categories </button>
                 <button onClick={_ => this.getAllPosts()}> Get All Posts </button>
@@ -59,6 +71,10 @@ class Debug extends Component{
                 
                 <p> Post new </p>
                 <button onClick={ _ => this.postBlog(testBlog)}> Post A blog </button>
+
+                <p> Deletes </p>
+                <button onClick ={ _ => this.deleteBlog(testPost)}> Delete A Post </button>
+                <button onClick ={ _ => this.deleteComment(testComment)}> Delete A Comment </button>
             </div>
         )
     }
