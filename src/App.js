@@ -16,8 +16,18 @@ class App extends Component {
     console.log("Initializing")
     // load the states from server if the server is on
 
+    // add a loading switch in order to accomodate poor network connection
+
     // TODO: store this in category state
-    API.getAllCategories().then(res => console.log(res))
+    API.getAllCategories().then(res => {
+      if(res == API.error){
+        console.log("network error")
+      }
+      else{
+        console.log("reset category")
+        console.log(res)
+      }
+    })
 
     let posts = []
     API.getAllPosts().then(res => {
@@ -26,6 +36,8 @@ class App extends Component {
         console.log("network error")
         return []
       }
+      // reset the state here
+      console.log("resetting state")
       return posts
     })
     .then(posts => posts.map(post => API.getComments(post.id).then(
