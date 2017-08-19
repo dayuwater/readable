@@ -3,6 +3,7 @@ import SerializeForm from 'form-serialize';
 import * as Helpers from '../utils/helpers'
 import * as API from '../utils/api'
 
+
 class BlogEditPage extends Component{
 
     submitBlog = (e) => {

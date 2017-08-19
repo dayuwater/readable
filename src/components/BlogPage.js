@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import Comment from './Comment'
 import TriangleUp from 'react-icons/lib/go/triangle-up';
 import TriangleDown from 'react-icons/lib/go/triangle-down';
+import AddComment from './AddComment'
 
 class BlogPage extends Component {
 
@@ -85,7 +86,7 @@ To start, we will need to construct three indices for each country, one vis-à-v
 
                 <div>
                     <h2> Comments </h2>
-                    <h3> [Add Your Comment] </h3>
+                    <AddComment />
                     <Comment/>
                     <Comment/>
                     <Comment/>

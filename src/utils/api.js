@@ -81,7 +81,15 @@ export const deletePost = (postId) => (
 )
 
 // POST /comments
-export const addComment = (comment) => {}
+export const addComment = (comment) => (
+    fetch(`${api}/comments`, {
+        ...postOptions,
+        body: JSON.stringify({
+            ...comment
+        })
+    
+    }).then(res => res.json()).catch(err => error)
+)
 
 // PUT /comments/:id
 export const editComment = (commentId) => {}

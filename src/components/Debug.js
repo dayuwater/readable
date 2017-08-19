@@ -4,6 +4,8 @@ import * as API from '../utils/api'
 
 const testComment = "894tuq4ut84ut8v4t8wun89g"
 
+const testPost = "8xf0y6ziyjabvozdd253nd"
+
 const testBlog = {
   "id": "teststetstt",
   "timestamp": 123897182739817,
@@ -13,7 +15,15 @@ const testBlog = {
   "category":"redux"
 }
 
-const testPost = "8xf0y6ziyjabvozdd253nd"
+const testCommentBody = {
+  "id": "testcomment",
+  "timestamp": 128737834739817,
+  "body": "Test",
+  "author":"SelfAuthor",
+  "parentId": testPost
+}
+
+
 
 
 class Debug extends Component{
@@ -45,6 +55,10 @@ class Debug extends Component{
         API.addPost(blog).then(res => console.log(res))
     }
 
+    postComment = (comment) => {
+        API.addComment(comment).then(res => console.log(res))
+    }
+
     deleteBlog = (postId) => {
         API.deletePost(postId).then(res => console.log(res))
     }
@@ -71,6 +85,7 @@ class Debug extends Component{
                 
                 <p> Post new </p>
                 <button onClick={ _ => this.postBlog(testBlog)}> Post A blog </button>
+                <button onClick={ _ => this.postComment(testCommentBody)}> Post A comment </button>
 
                 <p> Deletes </p>
                 <button onClick ={ _ => this.deleteBlog(testPost)}> Delete A Post </button>
