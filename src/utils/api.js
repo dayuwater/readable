@@ -22,6 +22,11 @@ const deleteOptions = {
     }
 }
 
+const putOptions = {
+    ...postOptions,
+    method: 'PUT'
+}
+
 export const getAllCategories = _ => (
     fetch(`${api}/categories`, { headers })
     .then(res => res.json()).then(json => json.categories)
@@ -72,7 +77,14 @@ export const addPost = (post) => (
 )
 
 // PUT /posts/:id
-export const editPost = (post) => {}
+export const editPost = (postId, editedPost) => (
+    fetch(`${api}/posts/${postId}`, {
+        ...putOptions,
+        body: JSON.stringify({
+            ...editedPost
+        })
+    }).then(res => res.json()).catch(err => error)
+)
 
 // DELETE /posts/:id
 export const deletePost = (postId) => (
@@ -92,7 +104,14 @@ export const addComment = (comment) => (
 )
 
 // PUT /comments/:id
-export const editComment = (commentId) => {}
+export const editComment = (commentId, editedComment) => (
+    fetch(`${api}/comments/${commentId}`, {
+        ...putOptions,
+        body: JSON.stringify({
+            ...editedComment
+        })
+    }).then(res => res.json()).catch(err => error)
+)
 
 // DELETE /comments/:id
 export const deleteComment = (commentId) => (

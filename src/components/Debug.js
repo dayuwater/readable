@@ -23,6 +23,15 @@ const testCommentBody = {
   "parentId": testPost
 }
 
+const editedPost = {
+    "title":"EditedTestfromProg",
+    "body": "EeditYestfomPogama"
+}
+
+const editedComment = {
+    "body": "EditedComment from programama",
+    "timestamp" : Date.now()
+}
 
 
 
@@ -67,6 +76,14 @@ class Debug extends Component{
         API.deleteComment(commentId).then(res => console.log(res))
     }
 
+    editBlog = (postId, editedPost) => {
+        API.editPost(postId, editedPost).then(res => console.log(res))
+    }
+
+    editComment = (commentId, editedComment) => {
+        API.editComment(commentId, editedComment).then(res => console.log(res))
+    }
+
 
     render(){
         return(
@@ -90,6 +107,10 @@ class Debug extends Component{
                 <p> Deletes </p>
                 <button onClick ={ _ => this.deleteBlog(testPost)}> Delete A Post </button>
                 <button onClick ={ _ => this.deleteComment(testComment)}> Delete A Comment </button>
+
+                <p> Edits</p>
+                <button onClick={ _ => this.editBlog(testPost, editedPost)}> Edit A blog </button>
+                <button onClick={ _ => this.editComment(testComment,editedComment)}> Edit A comment </button> 
             </div>
         )
     }
