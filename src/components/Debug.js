@@ -1,5 +1,8 @@
 import React, {Component} from 'react'
+import { connect } from 'react-redux'
 import * as API from '../utils/api'
+import { setCategories, addPost, reset, addComment} from '../actions'
+
 
 
 const testComment = "894tuq4ut84ut8v4t8wun89g"
@@ -39,15 +42,23 @@ class Debug extends Component{
 
     getAllCategories = () => {
         console.log("Get All Category Test Start")
-        API.getAllCategories().then(res => console.log(res))
+        API.getAllCategories().then(res => 
+            this.props.setCategories({categories:res})
+        )
     }
 
     getAllPosts = () => {
-        API.getAllPosts().then(res => console.log(res))
+        API.getAllPosts().then(res => {
+            console.log(res)
+            return res
+        }).then(posts => posts.map(post => this.props.addPost({post})))
     }
 
     getComments = (postId) => {
-        API.getComments(postId).then(res => console.log(res))
+        API.getComments(postId).then(res => {
+            console.log(res)
+            return res
+        }).then(comments => comments.map(comment => this.props.addComment({comment})))
     }
 
     votePost = (postId, option) => {
@@ -88,7 +99,7 @@ class Debug extends Component{
     render(){
         return(
             <div>
-                <h1> API tests </h1>
+                <h1> API and State tests </h1>
                 <p> Gets </p>
                 <button onClick={_ => this.getAllCategories()}> Get All Categories </button>
                 <button onClick={_ => this.getAllPosts()}> Get All Posts </button>
@@ -117,4 +128,19 @@ class Debug extends Component{
 
 }
 
-export default Debug
+function mapStateToProps({ food, calendar }) {
+    return {}
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    setCategories: (categories) => dispatch(setCategories(categories)),
+    addPost: (post) => dispatch(addPost(post)),
+    addComment: (comment) => dispatch(addComment(comment))
+  }
+
+
+}
+
+// export default Debug
+export default connect(mapStateToProps, mapDispatchToProps)(Debug)
