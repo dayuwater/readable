@@ -16,7 +16,6 @@ const initialBlogsState = {
     refresh_switch: true
 }
 
-
 function blogs (state = initialBlogsState, action){
     const { post, categories } = action
 
@@ -51,14 +50,29 @@ function blog(state = {}, action){
         case ADD_POST:
             return {
                 ...state,
-                [post.id]:post
+                [post.id]:{
+                    ...state[post.id],
+                    blog: post,
+                    comments : []
+                }
             }
         case VOTE_POST:
             return{
                 ...state,
                 [postId]:{
                     ...state[postId],
-                    voteScore
+                    blog:{
+                        ...state[postId].blog,
+                        voteScore
+                    }
+                }
+            }
+        case ADD_COMMENT:
+            return {
+                ...state,
+                [comment.parentId]:{
+                    ...state[comment.parentId],
+                    comments: [...state[comment.parentId].comments, comment.id]
                 }
             }
         case RESET:
