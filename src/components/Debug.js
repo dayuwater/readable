@@ -79,11 +79,17 @@ class Debug extends Component{
     }
 
     postBlog = (blog) => {
-        API.addPost(blog).then(res => console.log(res))
+        API.addPost(blog).then(res => {
+            console.log(res)
+            return res
+        }).then(post => this.props.addPost({post}))
     }
 
     postComment = (comment) => {
-        API.addComment(comment).then(res => console.log(res))
+        API.addComment(comment).then(res => {
+            console.log(res)
+            return res
+        }).then(comment => this.props.addComment({comment}))
     }
 
     deleteBlog = (postId) => {
