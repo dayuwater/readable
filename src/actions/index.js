@@ -5,6 +5,8 @@ export const FLIP_RELOAD_SWITCH = 'FLIP_RELOAD_SWITCH'
 export const SET_CATEGORIES = 'SET_CATEGORIES'
 export const VOTE_POST = "VOTE_POST"
 export const VOTE_COMMENT = "VOTE_COMMENT"
+export const DELETE_POST = "DELETE_POST"
+export const DELETE_COMMENT = "DELETE_COMMENT"
 
 export function addPost({post}){
     return{
@@ -57,5 +59,20 @@ export function voteComment({commentId, voteScore}){
         type:VOTE_COMMENT,
         commentId,
         voteScore
+    }
+}
+
+export function deletePost({postId}){
+    return{
+        type:DELETE_POST,
+        postId
+    }
+}
+
+export function deleteComment({commentId, parentId}){
+    return{
+        type:DELETE_COMMENT,
+        commentId,
+        parentId
     }
 }

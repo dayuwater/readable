@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import { connect } from 'react-redux'
 import * as API from '../utils/api'
 import { setCategories, addPost, reset, addComment,
-        votePost, voteComment } from '../actions'
+        votePost, voteComment, deletePost, deleteComment } from '../actions'
 
 
 
@@ -93,11 +93,17 @@ class Debug extends Component{
     }
 
     deleteBlog = (postId) => {
-        API.deletePost(postId).then(res => console.log(res))
+        API.deletePost(postId).then(res => {
+            console.log(res)
+            return res
+        }).then(_ => this.props.deletePost({postId}))
     }
 
     deleteComment = (commentId) => {
-        API.deleteComment(commentId).then(res => console.log(res))
+        API.deleteComment(commentId).then(res => {
+            console.log(res)
+            return res.parentId
+        }).then(parentId => this.props.deleteComment({commentId, parentId}))
     }
 
     editBlog = (postId, editedPost) => {
@@ -151,7 +157,9 @@ function mapDispatchToProps(dispatch) {
     addPost: (post) => dispatch(addPost(post)),
     addComment: (comment) => dispatch(addComment(comment)),
     votePost: (postId, voteScore) => dispatch(votePost(postId, voteScore)),
-    voteComment: (commentId, voteScore) => dispatch(voteComment(commentId, voteScore))
+    voteComment: (commentId, voteScore) => dispatch(voteComment(commentId, voteScore)),
+    deletePost:(postId) => dispatch(deletePost(postId)),
+    deleteComment: (commentId, parentId) => dispatch(deleteComment(commentId, parentId))
   }
 
 
