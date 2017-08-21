@@ -1,7 +1,8 @@
 import React, {Component} from 'react'
 import { connect } from 'react-redux'
 import * as API from '../utils/api'
-import { setCategories, addPost, reset, addComment} from '../actions'
+import { setCategories, addPost, reset, addComment,
+        votePost, voteComment } from '../actions'
 
 
 
@@ -62,12 +63,18 @@ class Debug extends Component{
     }
 
     votePost = (postId, option) => {
-        API.votePost(postId, option).then(res => console.log(res))
+        API.votePost(postId, option).then(res => {
+            console.log(res.voteScore)
+            return res.voteScore
+        }).then(res => this.props.votePost({postId, voteScore:res}))
 
     }
 
     voteComment = (commentId, option) => {
-        API.voteComment(commentId, option).then(res => console.log(res))
+        API.voteComment(commentId, option).then(res => {
+            console.log(res.voteScore)
+            return res.voteScore
+        }).then(res => this.props.voteComment({commentId, voteScore:res}))
 
     }
 
@@ -136,7 +143,9 @@ function mapDispatchToProps(dispatch) {
   return {
     setCategories: (categories) => dispatch(setCategories(categories)),
     addPost: (post) => dispatch(addPost(post)),
-    addComment: (comment) => dispatch(addComment(comment))
+    addComment: (comment) => dispatch(addComment(comment)),
+    votePost: (postId, voteScore) => dispatch(votePost(postId, voteScore)),
+    voteComment: (commentId, voteScore) => dispatch(voteComment(commentId, voteScore))
   }
 
 

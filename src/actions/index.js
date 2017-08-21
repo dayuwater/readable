@@ -3,6 +3,8 @@ export const ADD_COMMENT = 'ADD_COMMENT'
 export const RESET = 'RESET'
 export const FLIP_RELOAD_SWITCH = 'FLIP_RELOAD_SWITCH'
 export const SET_CATEGORIES = 'SET_CATEGORIES'
+export const VOTE_POST = "VOTE_POST"
+export const VOTE_COMMENT = "VOTE_COMMENT"
 
 export function addPost({post}){
     return{
@@ -35,5 +37,25 @@ export function setCategories({categories}){
         type: SET_CATEGORIES,
         categories
 
+    }
+}
+
+// Although the server returns the same thing as adding post
+// It is better to treat this as a different problem without copy/pasting
+// or use addPost for voting post
+export function votePost({postId, voteScore}){
+    return{
+        type:VOTE_POST,
+        postId,
+        voteScore
+        
+    }
+}
+
+export function voteComment({commentId, voteScore}){
+    return{
+        type:VOTE_COMMENT,
+        commentId,
+        voteScore
     }
 }

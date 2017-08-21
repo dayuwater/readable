@@ -3,7 +3,9 @@ import {
     RESET,
     FLIP_RELOAD_SWITCH,
     SET_CATEGORIES,
-    ADD_COMMENT
+    ADD_COMMENT,
+    VOTE_POST,
+    VOTE_COMMENT
 
 } from "../actions"
 import { combineReducers } from 'redux'
@@ -36,6 +38,7 @@ function blogs (state = initialBlogsState, action){
                 ...state,
                 category: categories
             }
+        
         default:
             return state
 
@@ -43,12 +46,20 @@ function blogs (state = initialBlogsState, action){
 }
 
 function blog(state = {}, action){
-    const { post, comment } = action
+    const { post, postId, comment, voteScore} = action
     switch(action.type){
         case ADD_POST:
             return {
                 ...state,
                 [post.id]:post
+            }
+        case VOTE_POST:
+            return{
+                ...state,
+                [postId]:{
+                    ...state[postId],
+                    voteScore
+                }
             }
         case RESET:
             return {}
@@ -59,7 +70,7 @@ function blog(state = {}, action){
 }
 
 function comment(state={}, action){
-    const {comment} = action
+    const {comment, commentId, voteScore} = action
     switch(action.type){
         case ADD_COMMENT:
             return {
@@ -68,6 +79,14 @@ function comment(state={}, action){
             }
         case RESET:
             return {}
+        case VOTE_COMMENT:
+            return{
+                ...state,
+                [commentId]:{
+                    ...state[commentId],
+                    voteScore
+                }
+            }
         default:
             return state
     }
