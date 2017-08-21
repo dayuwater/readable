@@ -2,7 +2,8 @@ import React, {Component} from 'react'
 import { connect } from 'react-redux'
 import * as API from '../utils/api'
 import { setCategories, addPost, reset, addComment,
-        votePost, voteComment, deletePost, deleteComment } from '../actions'
+        votePost, voteComment, deletePost, deleteComment,
+        editPost, editComment } from '../actions'
 
 
 
@@ -107,11 +108,17 @@ class Debug extends Component{
     }
 
     editBlog = (postId, editedPost) => {
-        API.editPost(postId, editedPost).then(res => console.log(res))
+        API.editPost(postId, editedPost).then(res => {
+            console.log(res)
+            return res
+        }).then(res => this.props.editPost({postId, post:res}))
     }
 
     editComment = (commentId, editedComment) => {
-        API.editComment(commentId, editedComment).then(res => console.log(res))
+       API.editComment(commentId, editedComment).then(res => {
+            console.log(res)
+            return res
+        }).then(res => this.props.editComment({commentId, comment:res}))
     }
 
 
@@ -119,6 +126,7 @@ class Debug extends Component{
         return(
             <div>
                 <h1> API and State tests </h1>
+                <h4> Note: Not in production site. Bugs expected. Operate with caution.</h4>
                 <p> Gets </p>
                 <button onClick={_ => this.getAllCategories()}> Get All Categories </button>
                 <button onClick={_ => this.getAllPosts()}> Get All Posts </button>
@@ -159,7 +167,9 @@ function mapDispatchToProps(dispatch) {
     votePost: (postId, voteScore) => dispatch(votePost(postId, voteScore)),
     voteComment: (commentId, voteScore) => dispatch(voteComment(commentId, voteScore)),
     deletePost:(postId) => dispatch(deletePost(postId)),
-    deleteComment: (commentId, parentId) => dispatch(deleteComment(commentId, parentId))
+    deleteComment: (commentId, parentId) => dispatch(deleteComment(commentId, parentId)),
+    editPost:(postId, post) => dispatch(editPost(postId, post)),
+    editComment:(commentId, comment) => dispatch(editComment(commentId, comment))
   }
 
 

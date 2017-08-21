@@ -7,6 +7,8 @@ export const VOTE_POST = "VOTE_POST"
 export const VOTE_COMMENT = "VOTE_COMMENT"
 export const DELETE_POST = "DELETE_POST"
 export const DELETE_COMMENT = "DELETE_COMMENT"
+export const EDIT_POST = "EDIT_POST"
+export const EDIT_COMMENT = "EDIT_COMMENT"
 
 export function addPost({post}){
     return{
@@ -74,5 +76,22 @@ export function deleteComment({commentId, parentId}){
         type:DELETE_COMMENT,
         commentId,
         parentId
+    }
+}
+
+export function editPost({postId, post}){
+    return{
+        type: EDIT_POST,
+        postId, 
+        post
+    }
+
+}
+
+export function editComment({commentId, comment}){
+    return{
+        type:EDIT_COMMENT,
+        commentId,
+        comment
     }
 }

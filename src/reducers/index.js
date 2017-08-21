@@ -7,7 +7,9 @@ import {
     VOTE_POST,
     VOTE_COMMENT,
     DELETE_POST,
-    DELETE_COMMENT
+    DELETE_COMMENT,
+    EDIT_POST,
+    EDIT_COMMENT
 
 } from "../actions"
 import { combineReducers } from 'redux'
@@ -77,6 +79,14 @@ function blog(state = {}, action){
                     }
                 }
             }
+        case EDIT_POST:
+            return{
+                ...state,
+                [postId]:{
+                    ...state[postId],
+                    blog: post
+                }
+            }
         case ADD_COMMENT:
             return {
                 ...state,
@@ -112,6 +122,11 @@ function comment(state={}, action){
         case DELETE_COMMENT:
             delete state[commentId]
             return state
+        case EDIT_COMMENT:
+            return{
+                ...state,
+                [commentId]:comment
+            }
         case RESET:
             return {}
         case VOTE_COMMENT:
