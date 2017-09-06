@@ -21,6 +21,17 @@ textarea{
 .blog-overview {
   margin-top: 20px;
   margin-bottom: 30px;
+  padding-top: 20px;
+}
+
+.odd-0{
+  background: lightgray;
+
+}
+
+.odd-1{
+  background: white;
+
 }
 
 .blog-rating{

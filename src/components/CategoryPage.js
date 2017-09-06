@@ -24,8 +24,12 @@ class CategoryPage extends Component {
                         
                     </div>
 
-                    {this.props.blogs.map(blog => <BlogOverview key={blog.blog.id} 
-                        blog={blog.blog} commentNum={blog.comments.length}/>)}
+                    
+                    {
+                        // if you are confused see App.css. This basically means alternating backgrounds
+                        this.props.blogs.map((blog,i) => <BlogOverview key={blog.blog.id} 
+                        blog={blog.blog} commentNum={blog.comments.length } background={`odd-${i%2}`}/>)
+                    }
 
                     
                    
