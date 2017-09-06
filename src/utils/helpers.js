@@ -13,3 +13,10 @@ export const uuid = () => {
     var uuid = s.join("");
     return uuid;
 }
+
+// this is from the lesson
+export function capitalize (str = '') {
+  return typeof str !== 'string'
+    ? ''
+    : str[0].toUpperCase() + str.slice(1)
+}
