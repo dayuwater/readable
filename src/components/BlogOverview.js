@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import MdChat from 'react-icons/lib/md/chat';
 import PropTypes from 'prop-types'
+import ReactSVG from 'react-svg'
 
 class BlogOverview extends Component{
 
@@ -23,7 +24,14 @@ class BlogOverview extends Component{
                 <div className={`blog-overview container ${background}`}>
                     <div className="row">
                         <div className="col-sm-4 img-container">
-                            <img src="http://via.placeholder.com/260x200" alt="desc" />
+                            <ReactSVG
+                                path={
+                                    // The name of the svg = the category
+                                    // I use icons to show users what category a blog is
+                                    `${blog.category}.svg`
+                                }
+                                style={{ width: 260, height: 200 }}
+                            />
                         </div>
                         <div className="col-sm-8">
                             <div className="row">
@@ -31,7 +39,10 @@ class BlogOverview extends Component{
                                 <h3 className="col-xs-1"> <MdChat size={30} /> </h3>
                                 <h3 className="col-xs-1"> {commentNum}  </h3>
                             </div>
-                            <p className="metadata"> posted {Date(blog.timestamp)} by {blog.author} </p>
+                            <p className="metadata"> posted {
+                                // sort of cheating, just slice 14 characters from end to remove time zone info
+                                new Date(blog.timestamp).toString().slice(0,-14)
+                            } by {blog.author} </p>
                             <p className="content"> {blog.body} </p>
 
 
