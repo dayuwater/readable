@@ -28,7 +28,7 @@ class BlogOverview extends Component{
                                 path={
                                     // The name of the svg = the category
                                     // I use icons to show users what category a blog is
-                                    `${blog.category}.svg`
+                                    `http://localhost:3000/${blog.category}.svg`
                                 }
                                 style={{ width: 260, height: 200 }}
                             />

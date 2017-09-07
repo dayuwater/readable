@@ -25,17 +25,38 @@ class MainPage extends Component{
         )
     }
 
+    getPostsForCategory = (category) => {
+        API.getPostsForOneCategory(category)
+        .then(posts => posts.map(post => this.props.addPost({post})))
+        .then(
+            () => (
+                this.props.blogs.map((blog) => {this.getComments(blog.blog.id)})
+            )
+        )
+    }
+
     getComments = (postId) => {
         API.getComments(postId)
         .then(comments => comments.map(comment => this.props.addComment({comment})))
     }
 
     componentDidMount(){
-        console.log("loading")
+        
         // load all the possible categories from API and store them in Redux
         this.getAllCategories()
-        // load all the blogs from API and store them in Redux
-        this.getAllPosts()
+
+        // if it is index page, this would be undefined
+        const currentCategory = this.props.match.params.category
+
+        if(currentCategory === undefined){
+            // load all the blogs from API and store them in Redux if this is the index page
+            this.getAllPosts()
+        
+        }
+        // load only the blogs for a particular category if it is a category page
+        else{
+            this.getPostsForCategory(currentCategory)
+        }
 
         
         
@@ -46,8 +67,9 @@ class MainPage extends Component{
     }
 
     render(){
+        const currentCategory = (this.props.match.params == {}) ? "index" : this.props.match.params.category
         return(
-            <CategoryPage categories={this.props.categories} currentCategory={"index"} 
+            <CategoryPage categories={this.props.categories} currentCategory={currentCategory} 
                 blogs={this.props.blogs}/>
         )
     }

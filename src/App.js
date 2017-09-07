@@ -60,7 +60,7 @@ class App extends Component {
       <div className="App">
         
         <Route exact path="/" component={MainPage} />
-        <Route exact path="/category" component={CategoryPage} />
+        <Route path="/category/:category" component={MainPage} />
         <Route exact path="/debug" component={Debug} />
         <Route exact path="/blog" component={BlogPage} /> 
         <Route path="/blog_edit" component={BlogEditPage} />
