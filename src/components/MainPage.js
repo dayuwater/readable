@@ -18,6 +18,11 @@ class MainPage extends Component{
     getAllPosts = () => {
         API.getAllPosts()
         .then(posts => posts.map(post => this.props.addPost({post})))
+        .then(
+            () => (
+                this.props.blogs.map((blog) => {this.getComments(blog.blog.id)})
+            )
+        )
     }
 
     getComments = (postId) => {
@@ -32,9 +37,9 @@ class MainPage extends Component{
         // load all the blogs from API and store them in Redux
         this.getAllPosts()
 
-        // load all the possible comments from API and store them in Redux
-        this.getComments()
-
+        
+        
+       
 
 
         
