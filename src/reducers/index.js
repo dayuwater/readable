@@ -19,7 +19,7 @@ const initialBlogsState = {
     category: [],
     blogs: [],
     refresh_switch: true,
-    current_category: ""
+    currentCategory: ""
 }
 
 function blogs (state = initialBlogsState, action){
@@ -39,7 +39,7 @@ function blogs (state = initialBlogsState, action){
         case SET_CURRENT_CATEGORY:
             return{
                 ...state,
-                current_category: category
+                currentCategory: category
             }
         case RESET:
             return initialBlogsState

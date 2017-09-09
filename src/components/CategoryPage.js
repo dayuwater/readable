@@ -9,11 +9,15 @@ import { connect } from 'react-redux'
 
 class CategoryPage extends Component {
     static PropTypes = {
-        blogs: PropTypes.array.isRequired
+        
     }
 
     linkOnClick = (category) => {
         this.props.setCurrentCategory(category)
+    }
+
+    componentDidMount(){
+        // console.log(this.props.match.params.category)
     }
 
 
@@ -27,9 +31,7 @@ class CategoryPage extends Component {
                     <div className="row">
                         <Link to={"/"} className="category col-xs-3" onClick={() => this.linkOnClick("index")}> <h2>All</h2> </Link>
                         {this.props.categories.map(c => (
-                            this.props.currentCategory === c ?
-                                <Link to={`/category/${c}`} className="category current col-xs-3" key={c} onClick={() => this.linkOnClick(c)}> <h2> {c} </h2> </Link> :
-                                <Link to={`/category/${c}`} className="category col-xs-3" key={c} onClick={() => this.linkOnClick(c)}> <h2> {c} </h2> </Link>
+                            <Link to={`/category/${c}`} className="category col-xs-3" key={c} onClick={() => this.linkOnClick(c)}> <h2> {c} </h2> </Link>
                         ))}
 
 
@@ -56,8 +58,9 @@ class CategoryPage extends Component {
 
 function mapStateToProps({ blogs, blog, comment }) {
     return {
-        currentCategory : blog.currentCategory,
-        categories: blogs.category
+        currentCategory : blogs.currentCategory,
+        categories: blogs.category,
+        blogs: Object.values(blog).filter(blog => (blogs.currentCategory === "index" || blog.blog.category === blogs.currentCategory)) 
     }
 }
 

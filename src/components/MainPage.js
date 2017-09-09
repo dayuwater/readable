@@ -77,8 +77,7 @@ class MainPage extends Component{
     render(){
         // const currentCategory = (this.props.match.params == {}) ? "index" : this.props.match.params.category
         return(
-            <CategoryPage categories={this.props.categories}  
-                blogs={this.props.blogs}/>
+            <CategoryPage  />
         )
     }
 }
