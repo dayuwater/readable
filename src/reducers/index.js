@@ -9,7 +9,8 @@ import {
     DELETE_POST,
     DELETE_COMMENT,
     EDIT_POST,
-    EDIT_COMMENT
+    EDIT_COMMENT,
+    SET_CURRENT_CATEGORY
 
 } from "../actions"
 import { combineReducers } from 'redux'
@@ -17,11 +18,12 @@ import { combineReducers } from 'redux'
 const initialBlogsState = {
     category: [],
     blogs: [],
-    refresh_switch: true
+    refresh_switch: true,
+    current_category: ""
 }
 
 function blogs (state = initialBlogsState, action){
-    const { post, categories, postId } = action
+    const { post, categories, postId, category } = action
 
     switch (action.type){
         case ADD_POST:
@@ -33,6 +35,11 @@ function blogs (state = initialBlogsState, action){
             return{
                 ...state,
                 blogs: state.blogs.filter(post => post !== postId)
+            }
+        case SET_CURRENT_CATEGORY:
+            return{
+                ...state,
+                current_category: category
             }
         case RESET:
             return initialBlogsState
@@ -46,6 +53,7 @@ function blogs (state = initialBlogsState, action){
                 ...state,
                 category: categories
             }
+        
         
         default:
             return state

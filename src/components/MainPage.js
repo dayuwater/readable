@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import * as API from '../utils/api'
 import { setCategories, addPost, reset, addComment,
         votePost, voteComment, deletePost, deleteComment,
-        editPost, editComment } from '../actions'
+        editPost, editComment, setCurrentCategory } from '../actions'
 
 class MainPage extends Component{
 
@@ -44,11 +44,6 @@ class MainPage extends Component{
         .then(comments => comments.map(comment => this.props.addComment({comment})))
     }
 
-    resetProcess = () => {
-         
-
-    }
-
     
 
     componentDidMount(){
@@ -61,29 +56,28 @@ class MainPage extends Component{
         // if it is index page, this would be undefined
         const currentCategory = this.props.match.params.category
 
-        if(currentCategory === undefined){
-            // load all the blogs from API and store them in Redux if this is the index page
-            this.getAllPosts()
+        this.getAllPosts()
         
-        }
-        // load only the blogs for a particular category if it is a category page
-        else{
-            this.getPostsForCategory(currentCategory)
-        }
+        this.props.setCurrentCategory(currentCategory || "index")
+
+
+        // if(currentCategory === undefined){
+        //     // load all the blogs from API and store them in Redux if this is the index page
+            
+        
+        // }
+        // // load only the blogs for a particular category if it is a category page
+        // else{
+        //     this.getPostsForCategory(currentCategory)
+        // }
        
     }
-
-    // componentWillReceiveProps(){
-    //     // this.resetProcess()
-
-    // }
-
     
 
     render(){
-        const currentCategory = (this.props.match.params == {}) ? "index" : this.props.match.params.category
+        // const currentCategory = (this.props.match.params == {}) ? "index" : this.props.match.params.category
         return(
-            <CategoryPage categories={this.props.categories} currentCategory={currentCategory} 
+            <CategoryPage categories={this.props.categories}  
                 blogs={this.props.blogs}/>
         )
     }
@@ -92,7 +86,8 @@ class MainPage extends Component{
 function mapStateToProps({ blogs, blog, comment }) {
     return {
         categories: blogs.category,
-        blogs: Object.values(blog)
+        blogs: Object.values(blog),
+        currentCategory : blogs.currentCategory
 
     }
 }
@@ -102,7 +97,8 @@ function mapDispatchToProps(dispatch) {
     setCategories: (categories) => dispatch(setCategories(categories)),
     addPost: (post) => dispatch(addPost(post)),
     addComment: (comment) => dispatch(addComment(comment)),
-    reset: () => dispatch(reset({}))
+    reset: () => dispatch(reset({})),
+    setCurrentCategory: (category) => dispatch(setCurrentCategory({category}))
 
   }
 

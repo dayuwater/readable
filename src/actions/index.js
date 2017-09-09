@@ -9,6 +9,7 @@ export const DELETE_POST = "DELETE_POST"
 export const DELETE_COMMENT = "DELETE_COMMENT"
 export const EDIT_POST = "EDIT_POST"
 export const EDIT_COMMENT = "EDIT_COMMENT"
+export const SET_CURRENT_CATEGORY = "SET_CURRENT_CATEGORY"
 
 export function addPost({post}){
     return{
@@ -42,6 +43,14 @@ export function setCategories({categories}){
         categories
 
     }
+}
+
+export function setCurrentCategory({category}){
+    return{
+        type:SET_CURRENT_CATEGORY,
+        category
+    }
+
 }
 
 // Although the server returns the same thing as adding post
