@@ -9,6 +9,10 @@ import { setCategories, addPost, reset, addComment,
 
 class MainPage extends Component{
 
+    reset = () => {
+        this.props.reset()
+    }
+
     getAllCategories = () => {
         API.getAllCategories().then(res => 
             this.props.setCategories({categories:res})
@@ -40,7 +44,16 @@ class MainPage extends Component{
         .then(comments => comments.map(comment => this.props.addComment({comment})))
     }
 
+    resetProcess = () => {
+         
+
+    }
+
+    
+
     componentDidMount(){
+        // reset the application state
+        this.reset()
         
         // load all the possible categories from API and store them in Redux
         this.getAllCategories()
@@ -57,14 +70,15 @@ class MainPage extends Component{
         else{
             this.getPostsForCategory(currentCategory)
         }
-
-        
-        
        
-
-
-        
     }
+
+    // componentWillReceiveProps(){
+    //     // this.resetProcess()
+
+    // }
+
+    
 
     render(){
         const currentCategory = (this.props.match.params == {}) ? "index" : this.props.match.params.category
@@ -87,7 +101,9 @@ function mapDispatchToProps(dispatch) {
   return {
     setCategories: (categories) => dispatch(setCategories(categories)),
     addPost: (post) => dispatch(addPost(post)),
-    addComment: (comment) => dispatch(addComment(comment))
+    addComment: (comment) => dispatch(addComment(comment)),
+    reset: () => dispatch(reset({}))
+
   }
 
 

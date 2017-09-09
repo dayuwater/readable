@@ -2,12 +2,16 @@ import React, {Component} from 'react'
 import BlogOverview from '../components/BlogOverview';
 import Comment from '../components/Comment';
 import PropTypes from 'prop-types'
+import {Link} from 'react-router-dom';
+
 class CategoryPage extends Component {
     static PropTypes = {
         categories : PropTypes.array.isRequired,
         currentCategory: PropTypes.string.isRequired,
         blogs: PropTypes.array.isRequired
     }
+
+
     
     render(){
         return (
@@ -16,12 +20,13 @@ class CategoryPage extends Component {
                 {/* <Link to={`/book/${this.state.id}`} className="book-title">{this.state.title}</Link> */}
                 <div className="blogs container">
                     <div className="row">
-                        <h2 className="category col-xs-3"> All </h2>
+                        <Link to={"/"} className="category col-xs-3"> <h2>All</h2> </Link> 
                         {this.props.categories.map(c => (
                              this.props.currentCategory === c ?
-                             <h2 className="category current col-xs-3" key={c}> {c} </h2> :
-                             <h2 className="category col-xs-3" key={c}> {c} </h2>
+                             <Link to={`/category/${c}`}  className="category current col-xs-3" key={c}> <h2> {c} </h2> </Link> :
+                             <Link to={`/category/${c}`}  className="category col-xs-3" key={c}> <h2> {c} </h2> </Link>
                         ))}
+
                         
                     </div>
 
