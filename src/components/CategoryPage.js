@@ -60,6 +60,10 @@ function mapStateToProps({ blogs, blog, comment }) {
     return {
         currentCategory : blogs.currentCategory,
         categories: blogs.category,
+
+        // this simply means if the current page is the index page, show all the blogs
+        // if the current page is a category page, only display the blogs in the same category
+        // just utilize short-circuit evaluation, some nice usage of filter function and basic fact of the project
         blogs: Object.values(blog).filter(blog => (blogs.currentCategory === "index" || blog.blog.category === blogs.currentCategory)) 
     }
 }
