@@ -10,6 +10,7 @@ export const DELETE_COMMENT = "DELETE_COMMENT"
 export const EDIT_POST = "EDIT_POST"
 export const EDIT_COMMENT = "EDIT_COMMENT"
 export const SET_CURRENT_CATEGORY = "SET_CURRENT_CATEGORY"
+export const SET_CURRENT_BLOG = "SET_CURRENT_BLOG"
 export const SET_SORTING = "SET_SORTING"
 
 export function addPost({post}){
@@ -58,6 +59,13 @@ export function setSorting({sorting}){
     return{
         type:SET_SORTING,
         sorting
+    }
+}
+
+export function setCurrentBlog({postId}){
+    return{
+        type: SET_CURRENT_BLOG,
+        postId
     }
 }
 

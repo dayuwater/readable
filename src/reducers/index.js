@@ -11,7 +11,8 @@ import {
     EDIT_POST,
     EDIT_COMMENT,
     SET_CURRENT_CATEGORY,
-    SET_SORTING
+    SET_SORTING,
+    SET_CURRENT_BLOG
 
 } from "../actions"
 import { combineReducers } from 'redux'
@@ -21,7 +22,8 @@ const initialBlogsState = {
     blogs: [],
     refresh_switch: true,
     currentCategory: "",
-    sorting: "voteScore"
+    sorting: "voteScore",
+    currentBlog: ""
 }
 
 function blogs (state = initialBlogsState, action){
@@ -59,6 +61,12 @@ function blogs (state = initialBlogsState, action){
             return{
                 ...state,
                 sorting
+            }
+
+        case SET_CURRENT_BLOG:
+            return{
+                ...state,
+                currentBlog: postId
             }
         
         

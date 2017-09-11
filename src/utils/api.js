@@ -48,6 +48,13 @@ export const getPostsForOneCategory = (category) => (
         .catch(err => error)
 )
 
+export const getOnePost = (postId) => (
+    fetch(`${api}/posts/${postId}`, { headers })
+        .then(res => res.json())
+        .then(arr => arr.filter(obj => obj.deleted == false))
+        .catch(err => error)
+)
+
 export const getComments = (postId) => (
     fetch(`${api}/posts/${postId}/comments`, {headers})
         .then(res => res.json())

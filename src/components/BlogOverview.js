@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
 import MdChat from 'react-icons/lib/md/chat';
 import PropTypes from 'prop-types'
 import ReactSVG from 'react-svg'
 import TriangleUp from 'react-icons/lib/go/triangle-up';
 import TriangleDown from 'react-icons/lib/go/triangle-down';
+import {Route, Link} from 'react-router-dom'
+import {flip_load_switch, setCurrentCategory, setSorting, setCurrentBlog} from '../actions'
+import { connect } from 'react-redux'
 
 class BlogOverview extends Component{
 
@@ -18,6 +20,12 @@ class BlogOverview extends Component{
         background : PropTypes.string.isRequired
 
     }
+
+    setCurrentBlog = (postId) => {
+        this.props.setCurrentBlog(postId)
+    }
+
+
     render(){
         const { blog, commentNum, background} = this.props
         return (
@@ -38,7 +46,8 @@ class BlogOverview extends Component{
                         </div>
                         <div className="col-sm-8">
                             <div className="row">
-                                <h3 className="col-xs-10"> {blog.title}  </h3>
+                                <h3 className="col-xs-10"> <Link to={`/blog/${blog.id}`} 
+                                    onClick={() => this.setCurrentBlog(blog.id)}>{blog.title}</Link> </h3>
                                 <h3 className="col-xs-1"> <MdChat size={30} /> </h3>
                                 <h3 className="col-xs-1"> {commentNum}  </h3>
                             </div>
@@ -58,4 +67,22 @@ class BlogOverview extends Component{
     }
 }
 
-export default BlogOverview;
+
+function mapStateToProps({ blogs, blog, comment }) {
+    return {
+        
+    }
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        setCurrentBlog: (postId) => dispatch(setCurrentBlog({postId}))
+        
+    }
+
+
+}
+
+
+// export default Debug
+export default connect(mapStateToProps, mapDispatchToProps)(BlogOverview)

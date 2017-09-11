@@ -3,7 +3,7 @@ import BlogOverview from '../components/BlogOverview';
 import Comment from '../components/Comment';
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom';
-import {flip_load_switch, setCurrentCategory, setSorting} from '../actions'
+import {flip_load_switch, setCurrentCategory, setSorting, setCurrentBlog} from '../actions'
 import { connect } from 'react-redux'
 
 
@@ -19,6 +19,8 @@ class CategoryPage extends Component {
     setSorting = (sorting) => {
         this.props.setSorting(sorting)
     }
+
+    
 
    
     render() {
@@ -92,6 +94,7 @@ function mapDispatchToProps(dispatch) {
     return {
         flip: () => dispatch(flip_load_switch({})),
         setCurrentCategory: (category) => dispatch(setCurrentCategory({category})),
+        setCurrentBlog: (postId) => dispatch(setCurrentBlog({postId})),
         setSorting: (sorting) => dispatch(setSorting({sorting}))
     }
 
