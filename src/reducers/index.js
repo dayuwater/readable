@@ -10,7 +10,8 @@ import {
     DELETE_COMMENT,
     EDIT_POST,
     EDIT_COMMENT,
-    SET_CURRENT_CATEGORY
+    SET_CURRENT_CATEGORY,
+    SET_SORTING
 
 } from "../actions"
 import { combineReducers } from 'redux'
@@ -19,11 +20,12 @@ const initialBlogsState = {
     category: [],
     blogs: [],
     refresh_switch: true,
-    currentCategory: ""
+    currentCategory: "",
+    sorting: "voteScore"
 }
 
 function blogs (state = initialBlogsState, action){
-    const { post, categories, postId, category } = action
+    const { post, categories, postId, category, sorting } = action
 
     switch (action.type){
         case ADD_POST:
@@ -52,6 +54,11 @@ function blogs (state = initialBlogsState, action){
             return{
                 ...state,
                 category: categories
+            }
+        case SET_SORTING:
+            return{
+                ...state,
+                sorting
             }
         
         

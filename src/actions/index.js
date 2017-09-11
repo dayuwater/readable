@@ -10,6 +10,7 @@ export const DELETE_COMMENT = "DELETE_COMMENT"
 export const EDIT_POST = "EDIT_POST"
 export const EDIT_COMMENT = "EDIT_COMMENT"
 export const SET_CURRENT_CATEGORY = "SET_CURRENT_CATEGORY"
+export const SET_SORTING = "SET_SORTING"
 
 export function addPost({post}){
     return{
@@ -51,6 +52,13 @@ export function setCurrentCategory({category}){
         category
     }
 
+}
+
+export function setSorting({sorting}){
+    return{
+        type:SET_SORTING,
+        sorting
+    }
 }
 
 // Although the server returns the same thing as adding post

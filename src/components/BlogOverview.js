@@ -3,6 +3,8 @@ import { connect } from 'react-redux'
 import MdChat from 'react-icons/lib/md/chat';
 import PropTypes from 'prop-types'
 import ReactSVG from 'react-svg'
+import TriangleUp from 'react-icons/lib/go/triangle-up';
+import TriangleDown from 'react-icons/lib/go/triangle-down';
 
 class BlogOverview extends Component{
 
@@ -24,6 +26,7 @@ class BlogOverview extends Component{
                 <div className={`blog-overview container ${background}`}>
                     <div className="row">
                         <div className="col-sm-4 img-container">
+                            <h2> <TriangleUp /> {blog.voteScore} <TriangleDown /> </h2>
                             <ReactSVG
                                 path={
                                     // The name of the svg = the category

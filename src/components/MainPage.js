@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import * as API from '../utils/api'
 import { setCategories, addPost, reset, addComment,
         votePost, voteComment, deletePost, deleteComment,
-        editPost, editComment, setCurrentCategory } from '../actions'
+        editPost, editComment, setCurrentCategory, setSorting } from '../actions'
 
 class MainPage extends Component{
 
@@ -57,25 +57,14 @@ class MainPage extends Component{
         const currentCategory = this.props.match.params.category
 
         this.getAllPosts()
-        
         this.props.setCurrentCategory(currentCategory || "index")
-
-
-        // if(currentCategory === undefined){
-        //     // load all the blogs from API and store them in Redux if this is the index page
-            
         
-        // }
-        // // load only the blogs for a particular category if it is a category page
-        // else{
-        //     this.getPostsForCategory(currentCategory)
-        // }
+
        
     }
     
 
     render(){
-        // const currentCategory = (this.props.match.params == {}) ? "index" : this.props.match.params.category
         return(
             <CategoryPage  />
         )
@@ -86,7 +75,8 @@ function mapStateToProps({ blogs, blog, comment }) {
     return {
         categories: blogs.category,
         blogs: Object.values(blog),
-        currentCategory : blogs.currentCategory
+        currentCategory : blogs.currentCategory,
+        sorting: blogs.sorting
 
     }
 }
@@ -97,7 +87,8 @@ function mapDispatchToProps(dispatch) {
     addPost: (post) => dispatch(addPost(post)),
     addComment: (comment) => dispatch(addComment(comment)),
     reset: () => dispatch(reset({})),
-    setCurrentCategory: (category) => dispatch(setCurrentCategory({category}))
+    setCurrentCategory: (category) => dispatch(setCurrentCategory({category})),
+   
 
   }
 
