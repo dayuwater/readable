@@ -2,6 +2,8 @@ import React, {Component} from 'react'
 import SerializeForm from 'form-serialize';
 import * as Helpers from '../utils/helpers'
 import * as API from '../utils/api'
+import { connect } from 'react-redux'
+import {addComment} from '../actions'
 
 
 class AddComment extends Component{
@@ -14,19 +16,19 @@ class AddComment extends Component{
             ...values,
             id: Helpers.uuid(),
             timestamp: Date.now(),
-            parentId: "8xf0y6ziyjabvozdd253nd"
+            parentId: this.props.currentBlog
         }
         // post the appended value to the server
         let result = ""
         API.addComment(appenedValues).then(res => {
             result = res
-            console.log(result)
             // check the result and alert user
             if(result == API.error){
                 alert("Sorry. It appears our server is down. Please try again later")
             }
             else{
-                alert("Your blog is successfully posted")
+                alert("Your comment is successfully posted")
+                this.props.addComment(res)
             }
             
         })
@@ -50,4 +52,20 @@ class AddComment extends Component{
 
 }
 
-export default AddComment
+function mapStateToProps({ blogs, blog, comment }) {
+    return {
+        currentBlog: blogs.currentBlog
+    }
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        addComment: (comment) => dispatch(addComment({comment}))
+        
+    }
+
+
+}
+
+// export default Debug
+export default connect(mapStateToProps, mapDispatchToProps)(AddComment)

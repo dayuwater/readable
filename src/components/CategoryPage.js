@@ -29,11 +29,15 @@ class CategoryPage extends Component {
                 <h1> Welcome To Our Fantastic Blog! </h1>
                 {/* <Link to={`/book/${this.state.id}`} className="book-title">{this.state.title}</Link> */}
                 <div className="blogs container">
+                    <br />
+                    <br />
+                    <h3> View Blogs, or <Link to="/newblog"> Post A New One </Link> </h3>
                     <div className="row">
                         <Link to={"/"} className="category col-xs-3" onClick={() => this.linkOnClick("index")}> <h2>All</h2> </Link>
                         {this.props.categories.map(c => (
                             <Link to={`/category/${c}`} className="category col-xs-3" key={c} onClick={() => this.linkOnClick(c)}> <h2> {c} </h2> </Link>
                         ))}
+                        
 
 
                     </div>
@@ -48,6 +52,8 @@ class CategoryPage extends Component {
                         this.props.blogs.map((blog, i) => <BlogOverview key={blog.blog.id}
                             blog={blog.blog} commentNum={blog.comments.length} background={`odd-${i % 2}`} />)
                     }
+
+                    <Link className="btn btn-primary" to="/newblog"> Post A New Blog </Link>
 
 
 

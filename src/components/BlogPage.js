@@ -10,6 +10,7 @@ import { setCategories, addPost, reset, addComment,
         votePost, voteComment, deletePost, deleteComment,
         editPost, editComment, setCurrentCategory, setSorting } from '../actions'
 import { Link } from 'react-router-dom';
+import SortingControl from './SortingControl'
 
 class BlogPage extends Component {
 
@@ -38,6 +39,8 @@ class BlogPage extends Component {
 
     render() {
         const {blog, comments} = this.props
+        const sortKeys = ['voteScore', 'author', 'timestamp', 'body']
+        const sortOptions = ['Score', 'Author', 'Time', 'Body']
         return (
             <div className="blog container">
                 <Link to="/"> <TriangleLeft size={30}/> <h3>Back</h3> </Link>
@@ -77,7 +80,12 @@ class BlogPage extends Component {
 
                 <div>
                     <h2> Comments ({blog.comments.length}) </h2>
+                    
                     <AddComment />
+
+                    <SortingControl sortKeys={sortKeys} sortOptions={sortOptions} />
+                    <br />
+                    <br />
 
                     {
                         comments.map(comment => <Comment key={comment.id} content={comment}/>)
@@ -99,8 +107,17 @@ function mapStateToProps({ blogs, blog, comment }, props) {
     return {
         categories: blogs.category,
         blog: Object.values(blog).filter(blog => blog.blog.id === blogs.currentBlog)[0],
-        comments: Object.values(comment).filter(c => c.parentId === blogs.currentBlog)
+
+        // just remember the criteria to sort is a global configuration, and it is stored in blogs
+        comments: Object.values(comment)
+        .filter(c => c.parentId === blogs.currentBlog)
+        .sort((c1, c2) => (isNaN(parseInt(c1[blogs.sorting])) ?
+        c1[blogs.sorting] > c2[blogs.sorting] : 
+        c1[blogs.sorting] < c2[blogs.sorting])),
+
+        sorting: blogs.sorting
         
+
 
     }
 }

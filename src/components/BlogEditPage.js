@@ -2,6 +2,9 @@ import React, { Component } from 'react'
 import SerializeForm from 'form-serialize';
 import * as Helpers from '../utils/helpers'
 import * as API from '../utils/api'
+import TriangleLeft from 'react-icons/lib/go/triangle-left';
+import { Link } from 'react-router-dom';
+
 
 
 class BlogEditPage extends Component{
@@ -26,6 +29,7 @@ class BlogEditPage extends Component{
             }
             else{
                 alert("Your blog is successfully posted")
+                this.props.history.push('/');
             }
             
         })
@@ -39,6 +43,7 @@ class BlogEditPage extends Component{
     render(){
         return(
             <div className="container">
+                <Link to="/"> <TriangleLeft size={30}/> <h3>Back</h3> </Link>
                 <form onSubmit={this.submitBlog} >
                 <h1> Edit Blog </h1>
                 <h2> Title and Author </h2>
