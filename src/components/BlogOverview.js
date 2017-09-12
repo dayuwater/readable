@@ -5,8 +5,11 @@ import ReactSVG from 'react-svg'
 import TriangleUp from 'react-icons/lib/go/triangle-up';
 import TriangleDown from 'react-icons/lib/go/triangle-down';
 import {Route, Link} from 'react-router-dom'
-import {flip_load_switch, setCurrentCategory, setSorting, setCurrentBlog} from '../actions'
+import {flip_load_switch, setCurrentCategory, setSorting, setCurrentBlog, deletePost} from '../actions'
 import { connect } from 'react-redux'
+import FaTrash from 'react-icons/lib/fa/trash';
+import FaEdit from 'react-icons/lib/fa/edit';
+import * as API from '../utils/api.js';
 
 class BlogOverview extends Component{
 
@@ -25,6 +28,11 @@ class BlogOverview extends Component{
         this.props.setCurrentBlog(postId)
     }
 
+    delete = () => {
+        if(window.confirm("Are you sure you want to delete this post?"))
+            API.deletePost(this.props.blog.id).then( res => this.props.deletePost(this.props.blog.id))
+    }
+
 
     render(){
         const { blog, commentNum, background} = this.props
@@ -34,7 +42,9 @@ class BlogOverview extends Component{
                 <div className={`blog-overview container ${background}`}>
                     <div className="row">
                         <div className="col-sm-4 img-container">
-                            <h2> <TriangleUp /> {blog.voteScore} <TriangleDown /> </h2>
+                            <h2> <TriangleUp /> {blog.voteScore} <TriangleDown /> <a> <FaEdit />  Edit</a>
+                                <a onClick={() => this.delete()}> <FaTrash />  Delete</a> </h2>
+                            
                             <ReactSVG
                                 path={
                                     // The name of the svg = the category
@@ -76,7 +86,8 @@ function mapStateToProps({ blogs, blog, comment }) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        setCurrentBlog: (postId) => dispatch(setCurrentBlog({postId}))
+        setCurrentBlog: (postId) => dispatch(setCurrentBlog({postId})),
+        deletePost:(postId) => dispatch(deletePost({postId}))
         
     }
 
