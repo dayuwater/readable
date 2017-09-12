@@ -15,8 +15,11 @@ export const uuid = () => {
 }
 
 // this is from the lesson
-export function capitalize (str = '') {
+export const capitalize = (str = '')  => {
   return typeof str !== 'string'
     ? ''
     : str[0].toUpperCase() + str.slice(1)
 }
+
+export const convertTimestamp = (timestamp) => (new Date(timestamp).toString().slice(0, -14))
+

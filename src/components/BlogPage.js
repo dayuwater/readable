@@ -37,7 +37,7 @@ class BlogPage extends Component {
     
 
     render() {
-        const {blog} = this.props
+        const {blog, comments} = this.props
         return (
             <div className="blog container">
                 <Link to="/"> <TriangleLeft size={30}/> <h3>Back</h3> </Link>
@@ -76,11 +76,13 @@ class BlogPage extends Component {
                 </div>
 
                 <div>
-                    <h2> Comments </h2>
+                    <h2> Comments ({blog.comments.length}) </h2>
                     <AddComment />
-                    <Comment/>
-                    <Comment/>
-                    <Comment/>
+
+                    {
+                        comments.map(comment => <Comment key={comment.id} content={comment}/>)
+                    }
+                   
 
                 </div>
 
@@ -96,7 +98,8 @@ function mapStateToProps({ blogs, blog, comment }, props) {
     //const currentBlog = this.props.match.params.id
     return {
         categories: blogs.category,
-        blog: Object.values(blog).filter(blog => blog.blog.id === blogs.currentBlog)[0]
+        blog: Object.values(blog).filter(blog => blog.blog.id === blogs.currentBlog)[0],
+        comments: Object.values(comment).filter(c => c.parentId === blogs.currentBlog)
         
 
     }
