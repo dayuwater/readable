@@ -35,6 +35,12 @@ class BlogPage extends Component {
         //console.log(this.props.blog)
        
     }
+
+    vote = (direction) => {
+        API.votePost(this.props.blog.blog.id, direction).then(res => {
+            this.props.votePost(this.props.blog.blog.id, res.voteScore)
+        })
+    }
     
 
     render() {
@@ -68,9 +74,9 @@ class BlogPage extends Component {
                     <div className = "col-md-6">
                         <b> How would you rate this article? </b>
                         
-                            <TriangleUp size={30}/>
+                            <TriangleUp size={30} onClick={() => this.vote("upVote")}/>
                             <b className="blog-rating"> {blog.blog.voteScore} </b>
-                            <TriangleDown size={30}/>
+                            <TriangleDown size={30} onClick={() => this.vote("downVote")} />
                         
                     </div>
 
@@ -127,6 +133,7 @@ function mapDispatchToProps(dispatch) {
     setCategories: (categories) => dispatch(setCategories(categories)),
     addPost: (post) => dispatch(addPost(post)),
     addComment: (comment) => dispatch(addComment(comment)),
+    votePost: (postId, voteScore) => dispatch(votePost({postId, voteScore}))
     
    
 
