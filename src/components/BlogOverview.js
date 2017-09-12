@@ -5,7 +5,7 @@ import ReactSVG from 'react-svg'
 import TriangleUp from 'react-icons/lib/go/triangle-up';
 import TriangleDown from 'react-icons/lib/go/triangle-down';
 import {Route, Link} from 'react-router-dom'
-import {flip_load_switch, setCurrentCategory, setSorting, setCurrentBlog, deletePost} from '../actions'
+import {flip_load_switch, setCurrentCategory, setSorting, setCurrentBlog, deletePost, votePost} from '../actions'
 import { connect } from 'react-redux'
 import FaTrash from 'react-icons/lib/fa/trash';
 import FaEdit from 'react-icons/lib/fa/edit';
@@ -33,6 +33,12 @@ class BlogOverview extends Component{
             API.deletePost(this.props.blog.id).then( res => this.props.deletePost(this.props.blog.id))
     }
 
+    vote = (direction) => {
+        API.votePost(this.props.blog.id, direction).then(res => {
+            this.props.votePost(this.props.blog.id, res.voteScore)
+        })
+    }
+
 
     render(){
         const { blog, commentNum, background} = this.props
@@ -42,7 +48,7 @@ class BlogOverview extends Component{
                 <div className={`blog-overview container ${background}`}>
                     <div className="row">
                         <div className="col-sm-4 img-container">
-                            <h2> <TriangleUp /> {blog.voteScore} <TriangleDown /> <a> <FaEdit />  Edit</a>
+                            <h2> <TriangleUp onClick={() => this.vote("upVote")}/> {blog.voteScore} <TriangleDown onClick={() => this.vote("downVote")}/> <a> <FaEdit />  Edit</a>
                                 <a onClick={() => this.delete()}> <FaTrash />  Delete</a> </h2>
                             
                             <ReactSVG
@@ -87,7 +93,8 @@ function mapStateToProps({ blogs, blog, comment }) {
 function mapDispatchToProps(dispatch) {
     return {
         setCurrentBlog: (postId) => dispatch(setCurrentBlog({postId})),
-        deletePost:(postId) => dispatch(deletePost({postId}))
+        deletePost:(postId) => dispatch(deletePost({postId})),
+        votePost: (postId, voteScore) => dispatch(votePost({postId, voteScore}))
         
     }
 

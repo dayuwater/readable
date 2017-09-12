@@ -7,7 +7,7 @@ import PropTypes from 'prop-types'
 import * as Helpers from '../utils/helpers.js';
 import * as API from '../utils/api.js';
 import { connect } from 'react-redux'
-import {deleteComment} from '../actions'
+import {deleteComment, voteComment} from '../actions'
 
 class Comment extends Component {
 
@@ -28,15 +28,22 @@ class Comment extends Component {
        
        
     }
+
+    vote = (direction) => {
+        API.voteComment(this.props.content.id, direction).then(res => {
+            this.props.voteComment(this.props.content.id, res.voteScore)
+        })
+    }
+
     render() {
         const {content} = this.props
         return (
             <div className="comment container" >
                 <div className="row">
                     <div className="col-xs-1">
-                        <p> <TriangleUp size={30} /> </p>
+                        <p> <TriangleUp size={30} onClick={() => this.vote("upVote")}/> </p>
                         <h3> {content.voteScore} </h3>
-                        <p> <TriangleDown size={30} /> </p>
+                        <p> <TriangleDown size={30} onClick={() => this.vote("downVote")}/> </p>
                     </div>
                     <div className="col-xs-11">
                         <div className="row">
@@ -66,7 +73,8 @@ function mapStateToProps({ blogs, blog, comment }) {
 function mapDispatchToProps(dispatch) {
     return {
         //deleteComment: (c, p) => dispatch(deleteComment({c, p}))
-        deleteComment: (commentId, parentId) => dispatch(deleteComment(commentId, parentId))
+        deleteComment: (commentId, parentId) => dispatch(deleteComment(commentId, parentId)),
+        voteComment: (commentId, voteScore) => dispatch(voteComment({commentId, voteScore}))
         
     }
 
