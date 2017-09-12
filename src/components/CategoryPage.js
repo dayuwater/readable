@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom';
 import {flip_load_switch, setCurrentCategory, setSorting, setCurrentBlog} from '../actions'
 import { connect } from 'react-redux'
+import SortingControl from './SortingControl'
 
 
 class CategoryPage extends Component {
@@ -16,11 +17,6 @@ class CategoryPage extends Component {
         this.props.setCurrentCategory(category)
     }
 
-    setSorting = (sorting) => {
-        this.props.setSorting(sorting)
-    }
-
-    
 
    
     render() {
@@ -42,17 +38,9 @@ class CategoryPage extends Component {
 
                     </div>
 
-                    <p> Currently Sorted By: {sortOptions[sortKeys.indexOf(this.props.currentSorting)]}.   Choose a new sorting criteria by clicking on the corresponding button below</p>
+                    <SortingControl sortKeys={sortKeys} sortOptions={sortOptions} />
 
-                    <div className="row">
-                        {
-                            sortOptions.map((v, i) => <div key={sortKeys[i]} 
-                                className={`btn btn-${bootstrapOrder[i%4]} col-md-3 col-xs-6`}
-                                onClick={() => this.setSorting(sortKeys[i])}> {v} </div>)
 
-                        }
-                        
-                    </div>
 
                     {
 
