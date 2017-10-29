@@ -31,6 +31,7 @@ class AddComment extends Component{
                 this.props.addComment(res)
             }
             
+            
         })
     }
     render(){
@@ -42,7 +43,7 @@ class AddComment extends Component{
                     <br />
                     <br />
                     <br />
-                    <textarea name="body" rows="10" > Comment Rationally </textarea>
+                    <textarea name="body" rows="10"  defaultValue="Comment Rationally" />  
 
                 </form>
 

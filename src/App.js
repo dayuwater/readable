@@ -24,7 +24,7 @@ class App extends Component {
         <Route exact path="/debug" component={Debug} />
         <Route path="/blog/:id" component={BlogPage} /> 
         <Route path="/newblog" component={BlogEditPage} />
-        <Route path="/blog_edit" component={BlogEditPage} />
+        <Route path="/blog_edit/:id" component={BlogEditPage} />
 
       </div>
     );

@@ -33,6 +33,7 @@ class BlogOverview extends Component{
             API.deletePost(this.props.blog.id).then( res => this.props.deletePost(this.props.blog.id))
     }
 
+   
     vote = (direction) => {
         API.votePost(this.props.blog.id, direction).then(res => {
             this.props.votePost(this.props.blog.id, res.voteScore)
@@ -48,7 +49,10 @@ class BlogOverview extends Component{
                 <div className={`blog-overview container ${background}`}>
                     <div className="row">
                         <div className="col-sm-4 img-container">
-                            <h2> <TriangleUp onClick={() => this.vote("upVote")}/> {blog.voteScore} <TriangleDown onClick={() => this.vote("downVote")}/> <a> <FaEdit />  Edit</a>
+                            <h2> <TriangleUp onClick={() => this.vote("upVote")}/> 
+                                {blog.voteScore} 
+                                <TriangleDown onClick={() => this.vote("downVote")}/> 
+                                <Link to={`/blog_edit/${blog.id}`}  onClick={() => this.setCurrentBlog(blog.id)}> <FaEdit />  Edit</Link>
                                 <a onClick={() => this.delete()}> <FaTrash />  Delete</a> </h2>
                             
                             <ReactSVG
