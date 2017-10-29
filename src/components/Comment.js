@@ -7,12 +7,17 @@ import PropTypes from 'prop-types'
 import * as Helpers from '../utils/helpers.js';
 import * as API from '../utils/api.js';
 import { connect } from 'react-redux'
-import {deleteComment, voteComment} from '../actions'
+import {deleteComment, voteComment, editComment} from '../actions'
+import SerializeForm from 'form-serialize';
 
 class Comment extends Component {
 
     static PropTypes = {
         content : PropTypes.object.isrequired
+    }
+
+    state = {
+        mode : "read"
     }
 
     deleteComment = (commentId) => {
@@ -35,32 +40,96 @@ class Comment extends Component {
         })
     }
 
+    edit = () => {
+        this.setState(() => ({
+            mode : "edit"
+
+        }))
+    }
+
+    submitComment = (e) => {
+        e.preventDefault()
+        const values = SerializeForm(e.target, {hash:true})
+        // append body and timestamp
+        const appenedValues = {
+            body: values.body,
+            timestamp: Date.now(),
+           
+        }
+        // post the appended value to the server
+        let result = ""
+        API.editComment(this.props.content.id,appenedValues).then(res => {
+            result = res
+            // check the result and alert user
+            if(result == API.error){
+                alert("Sorry. It appears our server is down. Please try again later")
+            }
+            else{
+                alert("Your comment is successfully edited")
+                
+                this.setState(() => ({
+                    mode : "read"
+        
+                }))
+                this.props.editComment(this.props.content.id, res)
+            }
+            
+            
+        })
+        
+    }
+
     render() {
         const {content} = this.props
-        return (
-            <div className="comment container" >
-                <div className="row">
-                    <div className="col-xs-1">
-                        <p> <TriangleUp size={30} onClick={() => this.vote("upVote")}/> </p>
-                        <h3> {content.voteScore} </h3>
-                        <p> <TriangleDown size={30} onClick={() => this.vote("downVote")}/> </p>
-                    </div>
-                    <div className="col-xs-11">
-                        <div className="row">
-                            <p className="col-sm-10 col-xs-6"> By {content.author} on {Helpers.convertTimestamp(content.timestamp)} </p>
-                            <div className="col-sm-2 col-xs-6">
-                                <a> <FaEdit />  Edit</a>
-                                <a onClick={() => this.delete()}> <FaTrash />  Delete</a>
-                            </div>
-                        </div>
-                        <p className="content"> 
-                            {content.body}
-                        </p>
-                    </div>
+        const {mode} = this.state
+        if(mode === "edit"){
+            return(
+                <div className="comment container" >
+                    <form onSubmit={this.submitComment}>
+                    <p className="col-sm-10 col-xs-6"> By {content.author} on {Helpers.convertTimestamp(content.timestamp)} </p>
+                       
+                        
+                        <button className="btn pull-right"> Finish Editing </button>
+
+                       
+                        
+                        <br />
+                        <br />
+                        <br />
+                        <textarea name="body" rows="10"  defaultValue={content.body} />  
+
+                    </form>
 
                 </div>
-            </div>
-        )
+            )
+        }
+
+        else{
+            return (
+                <div className="comment container" >
+                    <div className="row">
+                        <div className="col-xs-1">
+                            <p> <TriangleUp size={30} onClick={() => this.vote("upVote")}/> </p>
+                            <h3> {content.voteScore} </h3>
+                            <p> <TriangleDown size={30} onClick={() => this.vote("downVote")}/> </p>
+                        </div>
+                        <div className="col-xs-11">
+                            <div className="row">
+                                <p className="col-sm-10 col-xs-6"> By {content.author} on {Helpers.convertTimestamp(content.timestamp)} </p>
+                                <div className="col-sm-2 col-xs-6">
+                                    <a onClick={() => this.edit()}> <FaEdit />  Edit</a>
+                                    <a onClick={() => this.delete()}> <FaTrash />  Delete</a>
+                                </div>
+                            </div>
+                            <p className="content"> 
+                                {content.body}
+                            </p>
+                        </div>
+
+                    </div>
+                </div>
+            )
+        }
     }
 }
 
@@ -74,7 +143,8 @@ function mapDispatchToProps(dispatch) {
     return {
         //deleteComment: (c, p) => dispatch(deleteComment({c, p}))
         deleteComment: (commentId, parentId) => dispatch(deleteComment(commentId, parentId)),
-        voteComment: (commentId, voteScore) => dispatch(voteComment({commentId, voteScore}))
+        voteComment: (commentId, voteScore) => dispatch(voteComment({commentId, voteScore})),
+        editComment: (commentId, comment) => dispatch(editComment({commentId, comment}))
         
     }
 

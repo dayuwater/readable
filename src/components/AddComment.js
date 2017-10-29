@@ -11,7 +11,7 @@ class AddComment extends Component{
     submitComment = (e) => {
         e.preventDefault()
         const values = SerializeForm(e.target, {hash:true})
-        // append id and timestamp
+        // append body and timestamp
         const appenedValues = {
             ...values,
             id: Helpers.uuid(),
@@ -30,7 +30,7 @@ class AddComment extends Component{
                 alert("Your comment is successfully posted")
                 this.props.addComment(res)
             }
-            
+
             
         })
     }
@@ -38,12 +38,12 @@ class AddComment extends Component{
         return (
             <div>
                 <form onSubmit={this.submitComment}>
-                    <input name="author" placeholder="Enter your name here" />
+                    <input name="author" placeholder="Enter your name here" required/>
                     <button className="btn pull-right"> Post My Comment </button>
                     <br />
                     <br />
                     <br />
-                    <textarea name="body" rows="10"  defaultValue="Comment Rationally" />  
+                    <textarea name="body" rows="10"  placeholder="Comment Rationally" required/>  
 
                 </form>
 
