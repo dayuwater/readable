@@ -31,7 +31,7 @@ class CategoryPage extends Component {
                 <div className="blogs container">
                     <br />
                     <br />
-                    <h3> View Blogs, or <Link to="/newblog"> Post A New One </Link> </h3>
+                    <h3> View Blogs, or <Link to="/newblog/newblog/newblog"> Post A New One </Link> </h3>
                     <div className="row">
                         <Link to={"/"} className="category col-xs-3" onClick={() => this.linkOnClick("index")}> <h2>All</h2> </Link>
                         {this.props.categories.map(c => (

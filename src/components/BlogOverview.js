@@ -52,7 +52,7 @@ class BlogOverview extends Component{
                             <h2> <TriangleUp onClick={() => this.vote("upVote")}/> 
                                 {blog.voteScore} 
                                 <TriangleDown onClick={() => this.vote("downVote")}/> 
-                                <Link to={`/blog_edit/${blog.id}`}  onClick={() => this.setCurrentBlog(blog.id)}> <FaEdit />  Edit</Link>
+                                <Link to={`/blog_edit/blog_edit/${blog.id}`}  onClick={() => this.setCurrentBlog(blog.id)}> <FaEdit />  Edit</Link>
                                 <a onClick={() => this.delete()}> <FaTrash />  Delete</a> </h2>
                             
                             <ReactSVG
@@ -66,7 +66,7 @@ class BlogOverview extends Component{
                         </div>
                         <div className="col-sm-8">
                             <div className="row">
-                                <h3 className="col-xs-10"> <Link to={`/blog/${blog.id}`} 
+                                <h3 className="col-xs-10"> <Link to={`/${blog.category}/${blog.id}`} 
                                     onClick={() => this.setCurrentBlog(blog.id)}>{blog.title}</Link> </h3>
                                 <h3 className="col-xs-1"> <MdChat size={30} /> </h3>
                                 <h3 className="col-xs-1"> {commentNum}  </h3>

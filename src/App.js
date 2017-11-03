@@ -19,12 +19,28 @@ class App extends Component {
     return (
       <div className="App">
         
+        { /*  Here is one routing scheme that comforms to the rubric. 
+          It looks ugly because I have to use at least 3 subpaths to avoid multiple matches */ }
         <Route exact path="/" component={MainPage} />
-        <Route path="/:category" component={MainPage} />
+        <Route path="/newblog/newblog/newblog" component={BlogEditPage} />
         <Route exact path="/debug" component={Debug} />
-        <Route path="/:category/:id" component={BlogPage} /> 
-        <Route path="/newblog" component={BlogEditPage} />
-        <Route path="/blog_edit/:id" component={BlogEditPage} />
+        <Route exact path="/blog_edit/blog_edit/:id" component={BlogEditPage} />
+        <Route exact path="/:category/:id" component={BlogPage} /> 
+        <Route exact path="/:category" component={MainPage} />
+
+        { /* Here is a more simple and straightforward routing scheme, although it does not conform to rubric 
+         
+        <Route exact path="/" component={MainPage} />
+        <Route exact path="/newblog" component={BlogEditPage} />
+        <Route exact path="/debug" component={Debug} />
+        <Route exact path="/blog_edit/:id" component={BlogEditPage} />
+        <Route exact path="/blog/:id" component={BlogPage} /> 
+        <Route exact path="/:category" component={MainPage} />
+      
+      
+      
+        */ }
+        
 
       </div>
     );
