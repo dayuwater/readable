@@ -61,7 +61,7 @@ class Comment extends Component {
         API.editComment(this.props.content.id,appenedValues).then(res => {
             result = res
             // check the result and alert user
-            if(result == API.error){
+            if(result === API.error){
                 alert("Sorry. It appears our server is down. Please try again later")
             }
             else{

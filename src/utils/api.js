@@ -37,21 +37,21 @@ export const getAllCategories = _ => (
 export const getAllPosts = _ => (
     fetch(`${api}/posts`, { headers })
         .then(res => res.json())
-        .then(arr => arr.filter(obj => obj.deleted == false))
+        .then(arr => arr.filter(obj => obj.deleted === false))
         .catch(err => error)
 )
 
 export const getPostsForOneCategory = (category) => (
     fetch(`${api}/${category}/posts`, { headers })
         .then(res => res.json())
-        .then(arr => arr.filter(obj => obj.deleted == false))
+        .then(arr => arr.filter(obj => obj.deleted === false))
         .catch(err => error)
 )
 
 export const getOnePost = (postId) => (
     fetch(`${api}/posts/${postId}`, { headers })
         .then(res => res.json())
-        .then(arr => arr.filter(obj => obj.deleted == false))
+        .then(arr => arr.filter(obj => obj.deleted === false))
         .catch(err => error)
 )
 
