@@ -1,3 +1,20 @@
+## Install and Run 
+`npm install` -> `npm start`
+or
+`yarn install` -> `yarn start`
+
+## Other Notes
+- Score is sorted from numerical highest to numerical lowest (e.g. 5 > 0 > -6)
+- Author is sorted from A to Z, number to letter, case insensitive
+- Time is sorted from newest to oldest
+- Title is sorted the same way as how author is sorted
+- Single sorting only. Hierarchial sorting is not guaranteed
+- Catagories are shown as logos
+
+
+** The instruction above should work most of the time, if you still have issues see the following detailed instruction from Create React App**
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
 Below you will find some information on how to perform common tasks.<br>
