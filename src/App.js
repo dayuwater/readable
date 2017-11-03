@@ -20,9 +20,9 @@ class App extends Component {
       <div className="App">
         
         <Route exact path="/" component={MainPage} />
-        <Route path="/category/:category" component={MainPage} />
+        <Route path="/:category" component={MainPage} />
         <Route exact path="/debug" component={Debug} />
-        <Route path="/blog/:id" component={BlogPage} /> 
+        <Route path="/:category/:id" component={BlogPage} /> 
         <Route path="/newblog" component={BlogEditPage} />
         <Route path="/blog_edit/:id" component={BlogEditPage} />
 
