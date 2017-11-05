@@ -24,8 +24,7 @@ class BlogPage extends Component {
         .then(post => this.props.addPost({post}))
         .then(
             () => {
-                console.log(this.props)
-                return this.props.blogs.map((blog) => {this.getComments(blog.blog.id)})
+                this.getComments(postId)
             }
         )
     }
