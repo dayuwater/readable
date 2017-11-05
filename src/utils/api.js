@@ -52,7 +52,6 @@ export const getOnePost = (postId) => (
     fetch(`${api}/posts/${postId}`, { headers })
         .then(res => res.json())
         .then(res => res.deleted || res)
-        .catch(err => error)
 )
 
 export const getComments = (postId) => (

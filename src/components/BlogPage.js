@@ -14,6 +14,11 @@ import SortingControl from './SortingControl'
 
 class BlogPage extends Component {
 
+    state = {
+        ready: 1,
+        valid: true
+    }
+
     reset = () => {
         this.props.reset()
     }
@@ -21,17 +26,33 @@ class BlogPage extends Component {
 
     getBlog = (postId) => {
         API.getOnePost(postId)
-        .then(post => this.props.addPost({post}))
+        .then(post => {
+            console.log(post)
+            if(post.error || Object.keys(post).length === 0){
+                console.log("iii")
+                this.setState((state) => ({
+                    valid:false
+                })) 
+            }
+            this.props.addPost({post})
+        })
         .then(
             () => {
                 this.getComments(postId)
             }
         )
+        
     }
 
     getComments = (postId) => {
         API.getComments(postId)
-        .then(comments => comments.map(comment => this.props.addComment({comment})))
+            .then(comments => comments.map(comment => this.props.addComment({ comment })))
+            .then(() => {
+                this.setState((state) => ({
+                    ready: 1
+                }))
+            }
+            )
     }
 
     setCurrentBlog = (postId) => {
@@ -43,6 +64,9 @@ class BlogPage extends Component {
         // which will trigger API functions
        
         if(!this.props.blog){
+            this.setState((state) => ({
+                ready:0
+            }))
 
             this.reset()
 
@@ -66,6 +90,21 @@ class BlogPage extends Component {
         const {blog, comments} = this.props
         const sortKeys = ['voteScore', 'author', 'timestamp', 'body']
         const sortOptions = ['Score', 'Author', 'Time', 'Body']
+
+        // Perhaps indicating users that the page is loading is a better choice for mobile users
+        // but this could potentially hurt the user experience for high-speed Internet
+        if(this.state.ready == 0){
+            return(
+                <h1> Loading </h1>
+            )
+        }
+
+        if(!this.state.valid){
+            return (
+                <h1> 404: That Post does not exist or already deleted </h1>
+            )
+        }
+
         return (
             <div className="blog container">
                 <Link to="/"> <TriangleLeft size={30}/> <h3>Back</h3> </Link>
