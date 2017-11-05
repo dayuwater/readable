@@ -29,12 +29,18 @@ class BlogPage extends Component {
         .then(comments => comments.map(comment => this.props.addComment({comment})))
     }
 
-    componentDidMount(){
-        //const currentBlog = this.props.match.params.id
-        //this.getBlog(currentBlog)
-        //console.log(this.props.blog)
+    componentWillMount(){
+        // if a user type the URL or visit from elsewhere, enter direct visit mode
+        // which will trigger API functions
        
+        if(!this.props.blog){
+            const postId = this.props.match.params.id
+            console.log(postId)
+            this.getBlog(postId)
+        }
+
     }
+
 
     vote = (direction) => {
         API.votePost(this.props.blog.blog.id, direction).then(res => {

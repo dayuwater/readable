@@ -56,6 +56,13 @@ class Debug extends Component{
         }).then(posts => posts.map(post => this.props.addPost({post})))
     }
 
+    getOnePost = (postId) => {
+        API.getOnePost().then(res => {
+            console.log(res)
+            return res
+        }).then(posts => posts.map(post => this.props.addPost({post})))
+    }
+
     getComments = (postId) => {
         API.getComments(postId).then(res => {
             console.log(res)
@@ -130,6 +137,7 @@ class Debug extends Component{
                 <p> Gets </p>
                 <button onClick={_ => this.getAllCategories()}> Get All Categories </button>
                 <button onClick={_ => this.getAllPosts()}> Get All Posts </button>
+                <button onClick={_ => this.getOnePost()}> Get One Post </button>
                 <button onClick={_ => this.getComments("8xf0y6ziyjabvozdd253nd")}> Get Comments </button>
 
                 <p> Votes </p>
