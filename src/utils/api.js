@@ -51,7 +51,7 @@ export const getPostsForOneCategory = (category) => (
 export const getOnePost = (postId) => (
     fetch(`${api}/posts/${postId}`, { headers })
         .then(res => res.json())
-        .then(arr => arr.filter(obj => obj.deleted === false))
+        .then(res => res.deleted || res)
         .catch(err => error)
 )
 

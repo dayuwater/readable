@@ -8,19 +8,25 @@ import * as API from '../utils/api'
 import { connect } from 'react-redux'
 import { setCategories, addPost, reset, addComment,
         votePost, voteComment, deletePost, deleteComment,
-        editPost, editComment, setCurrentCategory, setSorting } from '../actions'
+        editPost, editComment, setCurrentCategory, setSorting, setCurrentBlog } from '../actions'
 import { Link } from 'react-router-dom';
 import SortingControl from './SortingControl'
 
 class BlogPage extends Component {
 
+    reset = () => {
+        this.props.reset()
+    }
+
+
     getBlog = (postId) => {
         API.getOnePost(postId)
         .then(post => this.props.addPost({post}))
         .then(
-            () => (
-                this.props.blogs.map((blog) => {this.getComments(blog.blog.id)})
-            )
+            () => {
+                console.log(this.props)
+                return this.props.blogs.map((blog) => {this.getComments(blog.blog.id)})
+            }
         )
     }
 
@@ -29,13 +35,21 @@ class BlogPage extends Component {
         .then(comments => comments.map(comment => this.props.addComment({comment})))
     }
 
+    setCurrentBlog = (postId) => {
+        this.props.setCurrentBlog(postId)
+    }
+
     componentWillMount(){
         // if a user type the URL or visit from elsewhere, enter direct visit mode
         // which will trigger API functions
        
         if(!this.props.blog){
+
+            this.reset()
+
             const postId = this.props.match.params.id
             console.log(postId)
+            this.setCurrentBlog(postId)
             this.getBlog(postId)
         }
 
@@ -119,7 +133,7 @@ function mapStateToProps({ blogs, blog, comment }, props) {
     return {
         categories: blogs.category,
         blog: Object.values(blog).filter(blog => blog.blog.id === blogs.currentBlog)[0],
-
+        blogs,
         // just remember the criteria to sort is a global configuration, and it is stored in blogs
         comments: Object.values(comment)
         .filter(c => c.parentId === blogs.currentBlog)
@@ -136,11 +150,12 @@ function mapStateToProps({ blogs, blog, comment }, props) {
 
 function mapDispatchToProps(dispatch) {
   return {
+    reset: () => dispatch(reset({})),
     setCategories: (categories) => dispatch(setCategories(categories)),
     addPost: (post) => dispatch(addPost(post)),
     addComment: (comment) => dispatch(addComment(comment)),
-    votePost: (postId, voteScore) => dispatch(votePost({postId, voteScore}))
-    
+    votePost: (postId, voteScore) => dispatch(votePost({postId, voteScore})),
+    setCurrentBlog: (postId) => dispatch(setCurrentBlog({postId})),
    
 
   }
