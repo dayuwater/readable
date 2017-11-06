@@ -16,7 +16,7 @@
 or
 `yarn install` -> `yarn start`
 
-- The default port number is 3000. Therefore, you can visit [the website here](`localhost:3000`) if you are using 3000
+- The default port number is 3000. Therefore, you can visit [the website here](http://localhost:3000) if you are using 3000
 - Like the backend server, you can change this port number too. However, using 3000 is highly recommended.
 - If you change the port number for the server, please change the port number for the project as well, or it won't run
   - In `utils/api.js`, change the 5001 in `const api = "http://localhost:5001"` to your server's port number
