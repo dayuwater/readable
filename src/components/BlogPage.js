@@ -23,6 +23,16 @@ class BlogPage extends Component {
         this.props.reset()
     }
 
+    // when the delete is successful, it will redirect user to the homepage
+    // redirect user first, then delete the post from Redux, so that it will not crash
+    delete = () => {
+        const id =  this.props.blog.blog.id
+        if(window.confirm("Are you sure you want to delete this post?"))
+            API.deletePost(id).then(_ => this.props.history.push('/'))
+            .then( res => this.props.deletePost(id))
+            
+    }
+
 
     getBlog = (postId) => {
         API.getOnePost(postId)
@@ -107,7 +117,14 @@ class BlogPage extends Component {
 
         return (
             <div className="blog container">
-                <Link to="/"> <TriangleLeft size={30}/> <h3>Back</h3> </Link>
+                <div className="row">
+                    <Link to="/" className="pull-left"> <TriangleLeft size={30}/> <h3>Back</h3> </Link>
+                    { /* perhaps this works by subdivision of bootstrap components */}
+                    <div className="pull-right">
+                        <Link to={`/blog_edit/blog_edit/${blog.blog.id}`} className="col-xs-4"> <TriangleLeft size={30}/> <h3>Edit</h3> </Link>
+                        <a className="col-xs-4" onClick={this.delete}> <TriangleLeft size={30}/> <h3>Delete</h3> </a>
+                    </div>
+                </div>
                 <h1>
                     {blog.blog.title}
                 </h1>
@@ -194,6 +211,7 @@ function mapDispatchToProps(dispatch) {
     addComment: (comment) => dispatch(addComment(comment)),
     votePost: (postId, voteScore) => dispatch(votePost({postId, voteScore})),
     setCurrentBlog: (postId) => dispatch(setCurrentBlog({postId})),
+    deletePost: (postId) => dispatch(deletePost({postId}))
    
 
   }
