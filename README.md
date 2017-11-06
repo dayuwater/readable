@@ -1,7 +1,25 @@
 ## Install and Run 
+
+**Please follow the instructions step by step, or it will not work properly**
+
+## Step 1: Set up the backend server
+- First, go to this [Github repo](https://github.com/udacity/reactnd-project-readable-starter)  and clone/fork/download it. 
+- Then, run `npm install` then `npm start` to start the backend server. You may also use `yarn`.
+- The default port number for server is 5001 (which is what my frontend project uses).
+- Using 5001 is highly recommended. However, you can change the port number if you really have to.
+  - Open `config.js`. Change 5001 in `exports.port = process.env.PORT || 5001` to the number you want.
+- Here is a quick link to [test the server](http://localhost:5001) if you are using 5001
+
+
+## Step 2: Start this project 
 `npm install` -> `npm start`
 or
 `yarn install` -> `yarn start`
+
+- The default port number is 3000. Therefore, you can visit [the website here](`localhost:3000`) if you are using 3000
+- Like the backend server, you can change this port number too. However, using 3000 is highly recommended.
+- If you change the port number for the server, please change the port number for the project as well, or it won't run
+  - In `utils/api.js`, change the 5001 in `const api = "http://localhost:5001"` to your server's port number
 
 ## Other Notes
 - Score is sorted from numerical highest to numerical lowest (e.g. 5 > 0 > -6)
