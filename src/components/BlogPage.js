@@ -43,12 +43,19 @@ class BlogPage extends Component {
                 this.setState((state) => ({
                     valid:false
                 })) 
+                return false
             }
             this.props.addPost({post})
+            return true
         })
         .then(
-            () => {
-                this.getComments(postId)
+            (res) => {
+                if(res)
+                    this.getComments(postId)
+                else
+                this.setState((state) => ({
+                    ready: 1
+                }))
             }
         )
         
@@ -111,7 +118,10 @@ class BlogPage extends Component {
 
         if(!this.state.valid){
             return (
-                <h1> 404: That Post does not exist or already deleted </h1>
+                <div>
+                    <Link to="/" className="pull-left"> <TriangleLeft size={30}/> <h3>Back</h3> </Link>
+                    <h1> 404: That Post does not exist or already deleted </h1>
+                </div>
             )
         }
 
