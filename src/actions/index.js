@@ -16,6 +16,8 @@ export const SET_CURRENT_CATEGORY = "SET_CURRENT_CATEGORY"
 export const SET_CURRENT_BLOG = "SET_CURRENT_BLOG"
 export const SET_SORTING = "SET_SORTING"
 
+export const BLOG_NOT_EXIST = "n/a"
+
 
 export function addPost({post}){
     return{
@@ -38,6 +40,33 @@ export const fetchComments = ({postId}) => dispatch => {
         comments.map(comment =>  dispatch(addComment({comment})))
     
     )
+}
+
+export const fetchOnePost = ({postId}) => dispatch => {
+    API.getOnePost(postId)
+    .then(post => {
+        console.log(post)
+        if(post.error || Object.keys(post).length === 0){
+            console.log("error")
+            return false
+        }
+        dispatch(addPost({post}))
+        return true
+    })
+    .then(
+        // res => dispatch(fetchComments({postId})) 
+        res => {
+            if(res){
+                dispatch(fetchComments({postId}))
+                dispatch(setCurrentBlog({postId}))
+            }
+            else{
+                dispatch(setCurrentBlog({postId:BLOG_NOT_EXIST}))
+            }
+           
+        }
+    )
+   
 }
 
 export const fetchPosts = ({category}) => dispatch => (
@@ -123,6 +152,13 @@ export function votePost({postId, voteScore}){
     }
 }
 
+export const votingPost = ({postId, direction}) => dispatch => {
+    API.votePost(postId, direction).then(res => {
+        dispatch(votePost({postId:res.id, voteScore:res.voteScore}))
+    })
+
+}
+
 export function voteComment({commentId, voteScore}){
     return{
         type:VOTE_COMMENT,
@@ -131,12 +167,19 @@ export function voteComment({commentId, voteScore}){
     }
 }
 
+
+
 export function deletePost({postId}){
     return{
         type:DELETE_POST,
         postId
     }
 }
+
+export const deletingPost = ({postId}) => dispatch => (
+    API.deletePost(postId)
+    .then( res => dispatch(deletePost({postId:postId})))
+)
 
 export function deleteComment({commentId, parentId}){
     return{

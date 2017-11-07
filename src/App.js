@@ -4,7 +4,6 @@ import './App.css';
 import BlogOverview from './components/BlogOverview';
 import Comment from './components/Comment';
 import CategoryPage from './components/CategoryPage'
-import Debug from './components/Debug'
 import BlogPage from './components/BlogPage'
 import BlogEditPage from './components/BlogEditPage'
 import MainPage from './components/MainPage'
@@ -23,7 +22,6 @@ class App extends Component {
           It looks ugly because I have to use at least 3 subpaths to avoid multiple matches */ }
         <Route exact path="/" component={MainPage} />
         <Route path="/newblog/newblog/newblog" component={BlogEditPage} />
-        <Route exact path="/debug" component={Debug} />
         <Route exact path="/blog_edit/blog_edit/:id" component={BlogEditPage} />
         <Route exact path="/:category/:id" component={BlogPage} /> 
         <Route exact path="/:category" component={MainPage} />
@@ -32,7 +30,6 @@ class App extends Component {
          
         <Route exact path="/" component={MainPage} />
         <Route exact path="/newblog" component={BlogEditPage} />
-        <Route exact path="/debug" component={Debug} />
         <Route exact path="/blog_edit/:id" component={BlogEditPage} />
         <Route exact path="/blog/:id" component={BlogPage} /> 
         <Route exact path="/:category" component={MainPage} />

@@ -27,12 +27,6 @@ class MainPage extends Component{
     }
 
 
-    getComments = (postId) => {
-        this.props.fetchComments({postId})
-    }
-
-    
-
     componentDidMount(){
         // reset the application state
         this.reset()

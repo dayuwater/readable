@@ -13,109 +13,57 @@ import SortingControl from './SortingControl'
 
 class BlogPage extends Component {
 
-    state = {
-        ready: 1,
-        valid: true
-    }
 
     reset = () => {
         this.props.reset({})
     }
 
-    // when the delete is successful, it will redirect user to the homepage
-    // redirect user first, then delete the post from Redux, so that it will not crash
     delete = () => {
         const id =  this.props.blog.blog.id
+        // console.log( this.props.deletingPost({postId:id})) // Return a promise
         if(window.confirm("Are you sure you want to delete this post?"))
-            API.deletePost(id).then(_ => this.props.history.push('/'))
-            .then( res => this.props.deletePost({postId:id}))
+            this.props.deletingPost({postId:id})
+            .then(this.props.history.push('/'))
+            
             
     }
 
 
     getBlog = (postId) => {
-        API.getOnePost(postId)
-        .then(post => {
-            console.log(post)
-            if(post.error || Object.keys(post).length === 0){
-                console.log("iii")
-                this.setState((state) => ({
-                    valid:false
-                })) 
-                return false
-            }
-            this.props.addPost({post})
-            return true
-        })
-        .then(
-            (res) => {
-                if(res)
-                    this.getComments(postId)
-                else
-                this.setState((state) => ({
-                    ready: 1
-                }))
-            }
-        )
-        
+        this.props.fetchOnePost({postId})
     }
-
-    getComments = (postId) => {
-        API.getComments(postId)
-            .then(comments => comments.map(comment => this.props.addComment({ comment })))
-            .then(() => {
-                this.setState((state) => ({
-                    ready: 1
-                }))
-            }
-            )
-    }
-
-    setCurrentBlog = (postId) => {
-        this.props.setCurrentBlog({postId})
-    }
-
-    componentWillMount(){
-        // if a user type the URL or visit from elsewhere, enter direct visit mode
-        // which will trigger API functions
-       
-        if(!this.props.blog){
-            this.setState((state) => ({
-                ready:0
-            }))
-
-            this.reset()
-
-            const postId = this.props.match.params.id
-            console.log(postId)
-            this.setCurrentBlog(postId)
-            this.getBlog(postId)
-        }
-
-    }
-
 
     vote = (direction) => {
-        API.votePost(this.props.blog.blog.id, direction).then(res => {
-            this.props.votePost({postId:this.props.blog.blog.id, voteScore:res.voteScore})
-        })
+        this.props.votingPost({postId:this.props.blog.blog.id, direction})
+    }
+
+    componentDidMount(){
+        // if users visit this site by a URL for a specific blog
+        if(!this.props.blog){
+            this.reset()
+            const postId = this.props.match.params.id
+            this.getBlog(postId)
+
+        }
+
+        // otherwise, load from Redux
     }
     
 
     render() {
-        const {blog, comments} = this.props
+        const {blog, comments, blogs} = this.props
         const sortKeys = ['voteScore', 'author', 'timestamp', 'body']
         const sortOptions = ['Score', 'Author', 'Time', 'Body']
 
         // Perhaps indicating users that the page is loading is a better choice for mobile users
         // but this could potentially hurt the user experience for high-speed Internet
-        if(this.state.ready == 0){
+        if(blogs.currentBlog === ""){
             return(
                 <h1> Loading </h1>
             )
         }
 
-        if(!this.state.valid){
+        if(blogs.currentBlog === Actions.BLOG_NOT_EXIST){
             return (
                 <div>
                     <Link to="/" className="pull-left"> <TriangleLeft size={30}/> <h3>Back</h3> </Link>
