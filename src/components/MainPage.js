@@ -3,14 +3,13 @@ import BlogOverview from '../components/BlogOverview';
 import CategoryPage from './CategoryPage'
 import { connect } from 'react-redux'
 import * as API from '../utils/api'
-import { setCategories, addPost, reset, addComment,
-        votePost, voteComment, deletePost, deleteComment,
-        editPost, editComment, setCurrentCategory, setSorting } from '../actions'
+import { bindActionCreators } from 'redux'
+import * as Actions from '../actions'
 
 class MainPage extends Component{
 
     reset = () => {
-        this.props.reset()
+        this.props.reset({})
     }
 
     getAllCategories = () => {
@@ -57,7 +56,7 @@ class MainPage extends Component{
         const currentCategory = this.props.match.params.category
 
         this.getAllPosts()
-        this.props.setCurrentCategory(currentCategory || "index")
+        this.props.setCurrentCategory({category:currentCategory || "index"})
         
 
        
@@ -82,15 +81,16 @@ function mapStateToProps({ blogs, blog, comment }) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return {
-    setCategories: (categories) => dispatch(setCategories(categories)),
-    addPost: (post) => dispatch(addPost(post)),
-    addComment: (comment) => dispatch(addComment(comment)),
-    reset: () => dispatch(reset({})),
-    setCurrentCategory: (category) => dispatch(setCurrentCategory({category})),
+//   return {
+//     setCategories: (categories) => dispatch(setCategories(categories)),
+//     addPost: (post) => dispatch(addPost(post)),
+//     addComment: (comment) => dispatch(addComment(comment)),
+//     reset: () => dispatch(reset({})),
+//     setCurrentCategory: (category) => dispatch(setCurrentCategory({category})),
    
 
-  }
+//   }
+   return bindActionCreators(Actions, dispatch)
 
 
 }
