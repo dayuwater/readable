@@ -5,7 +5,8 @@ import ReactSVG from 'react-svg'
 import TriangleUp from 'react-icons/lib/go/triangle-up';
 import TriangleDown from 'react-icons/lib/go/triangle-down';
 import {Route, Link} from 'react-router-dom'
-import {flip_load_switch, setCurrentCategory, setSorting, setCurrentBlog, deletePost, votePost} from '../actions'
+import * as Actions from '../actions'
+import {bindActionCreators} from 'redux'
 import { connect } from 'react-redux'
 import FaTrash from 'react-icons/lib/fa/trash';
 import FaEdit from 'react-icons/lib/fa/edit';
@@ -25,18 +26,18 @@ class BlogOverview extends Component{
     }
 
     setCurrentBlog = (postId) => {
-        this.props.setCurrentBlog(postId)
+        this.props.setCurrentBlog({postId})
     }
 
     delete = () => {
         if(window.confirm("Are you sure you want to delete this post?"))
-            API.deletePost(this.props.blog.id).then( res => this.props.deletePost(this.props.blog.id))
+            API.deletePost(this.props.blog.id).then( res => this.props.deletePost({postId:this.props.blog.id}))
     }
 
    
     vote = (direction) => {
         API.votePost(this.props.blog.id, direction).then(res => {
-            this.props.votePost(this.props.blog.id, res.voteScore)
+            this.props.votePost({postId:this.props.blog.id, voteScore:res.voteScore})
         })
     }
 
@@ -95,13 +96,8 @@ function mapStateToProps({ blogs, blog, comment }) {
 }
 
 function mapDispatchToProps(dispatch) {
-    return {
-        setCurrentBlog: (postId) => dispatch(setCurrentBlog({postId})),
-        deletePost:(postId) => dispatch(deletePost({postId})),
-        votePost: (postId, voteScore) => dispatch(votePost({postId, voteScore}))
-        
-    }
-
+   
+    return bindActionCreators(Actions, dispatch)
 
 }
 

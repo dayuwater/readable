@@ -6,9 +6,8 @@ import TriangleLeft from 'react-icons/lib/go/triangle-left';
 import AddComment from './AddComment'
 import * as API from '../utils/api'
 import { connect } from 'react-redux'
-import { setCategories, addPost, reset, addComment,
-        votePost, voteComment, deletePost, deleteComment,
-        editPost, editComment, setCurrentCategory, setSorting, setCurrentBlog } from '../actions'
+import * as Actions from '../actions'
+import {bindActionCreators} from 'redux'
 import { Link } from 'react-router-dom';
 import SortingControl from './SortingControl'
 
@@ -20,7 +19,7 @@ class BlogPage extends Component {
     }
 
     reset = () => {
-        this.props.reset()
+        this.props.reset({})
     }
 
     // when the delete is successful, it will redirect user to the homepage
@@ -29,7 +28,7 @@ class BlogPage extends Component {
         const id =  this.props.blog.blog.id
         if(window.confirm("Are you sure you want to delete this post?"))
             API.deletePost(id).then(_ => this.props.history.push('/'))
-            .then( res => this.props.deletePost(id))
+            .then( res => this.props.deletePost({postId:id}))
             
     }
 
@@ -73,7 +72,7 @@ class BlogPage extends Component {
     }
 
     setCurrentBlog = (postId) => {
-        this.props.setCurrentBlog(postId)
+        this.props.setCurrentBlog({postId})
     }
 
     componentWillMount(){
@@ -98,7 +97,7 @@ class BlogPage extends Component {
 
     vote = (direction) => {
         API.votePost(this.props.blog.blog.id, direction).then(res => {
-            this.props.votePost(this.props.blog.blog.id, res.voteScore)
+            this.props.votePost({postId:this.props.blog.blog.id, voteScore:res.voteScore})
         })
     }
     
@@ -214,18 +213,8 @@ function mapStateToProps({ blogs, blog, comment }, props) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return {
-    reset: () => dispatch(reset({})),
-    setCategories: (categories) => dispatch(setCategories(categories)),
-    addPost: (post) => dispatch(addPost(post)),
-    addComment: (comment) => dispatch(addComment(comment)),
-    votePost: (postId, voteScore) => dispatch(votePost({postId, voteScore})),
-    setCurrentBlog: (postId) => dispatch(setCurrentBlog({postId})),
-    deletePost: (postId) => dispatch(deletePost({postId}))
-   
 
-  }
-
+  return bindActionCreators(Actions, dispatch)
 
 }
 
