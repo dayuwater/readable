@@ -31,6 +31,32 @@ export function addComment({comment}){
     }
 }
 
+export const fetchComments = ({postId}) => dispatch => {
+    API
+    .getComments(postId)
+    .then(comments => 
+        comments.map(comment =>  dispatch(addComment({comment})))
+    
+    )
+}
+
+export const fetchPosts = ({category}) => dispatch => (
+    (category === "index" ? API.getAllPosts() : API.getPostsForOneCategory(category))
+    .then(posts => posts.map(post => {
+        dispatch(addPost({post}))
+        return post
+    }))
+    .then(
+        (posts) => {
+            posts.map((post) => {
+                // Use dispatch on every action called from functions in action/*.js
+                // EVEN IF IT IS AN ACTION THAT TRIGGERS OTHER ACTIONS!!!!!
+                dispatch(fetchComments({postId:post.id}))
+            })
+        }
+    )
+)
+
 export function reset({}){
     return{
         type: RESET

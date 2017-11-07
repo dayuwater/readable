@@ -12,39 +12,23 @@ class MainPage extends Component{
         this.props.reset({})
     }
 
-    // getAllCategories = () => {
-    //     API.getAllCategories().then(res => 
-    //         this.props.setCategories({categories:res})
-    //     )
-    // }
 
     getAllCategories = () => {
         this.props.fetchCategories()
     }
 
+
     getAllPosts = () => {
-        API.getAllPosts()
-        .then(posts => posts.map(post => this.props.addPost({post})))
-        .then(
-            () => (
-                this.props.blogs.map((blog) => {this.getComments(blog.blog.id)})
-            )
-        )
+        this.props.fetchPosts({category:"index"})
     }
 
     getPostsForCategory = (category) => {
-        API.getPostsForOneCategory(category)
-        .then(posts => posts.map(post => this.props.addPost({post})))
-        .then(
-            () => (
-                this.props.blogs.map((blog) => {this.getComments(blog.blog.id)})
-            )
-        )
+        this.props.fetchPosts({category})
     }
 
+
     getComments = (postId) => {
-        API.getComments(postId)
-        .then(comments => comments.map(comment => this.props.addComment({comment})))
+        this.props.fetchComments({postId})
     }
 
     
