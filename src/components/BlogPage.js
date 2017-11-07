@@ -10,6 +10,8 @@ import * as Actions from '../actions'
 import {bindActionCreators} from 'redux'
 import { Link } from 'react-router-dom';
 import SortingControl from './SortingControl'
+import FaTrash from 'react-icons/lib/fa/trash';
+import FaEdit from 'react-icons/lib/fa/edit';
 
 class BlogPage extends Component {
 
@@ -78,8 +80,8 @@ class BlogPage extends Component {
                     <Link to="/" className="pull-left"> <TriangleLeft size={30}/> <h3>Back</h3> </Link>
                     { /* perhaps this works by subdivision of bootstrap components */}
                     <div className="pull-right">
-                        <Link to={`/blog_edit/blog_edit/${blog.blog.id}`} className="col-xs-4"> <TriangleLeft size={30}/> <h3>Edit</h3> </Link>
-                        <a className="col-xs-4" onClick={this.delete}> <TriangleLeft size={30}/> <h3>Delete</h3> </a>
+                        <Link to={`/blog_edit/blog_edit/${blog.blog.id}`} className="col-xs-4"> <FaEdit size={30}/> <h3>Edit</h3> </Link>
+                        <a className="col-xs-4" onClick={this.delete}> <FaTrash size={30}/> <h3>Delete</h3> </a>
                     </div>
                 </div>
                 <h1>
