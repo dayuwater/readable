@@ -52,6 +52,7 @@ export const fetchOnePost = ({postId}) => dispatch => {
         }
         dispatch(addPost({post}))
         return true
+        
     })
     .then(
         // res => dispatch(fetchComments({postId})) 
@@ -167,6 +168,13 @@ export function voteComment({commentId, voteScore}){
     }
 }
 
+export const votingComment = ({commentId, direction}) => dispatch => {
+    API.voteComment(commentId, direction).then(res => {
+        dispatch(voteComment({commentId:res.id, voteScore:res.voteScore}))
+    })
+
+}
+
 
 
 export function deletePost({postId}){
@@ -189,6 +197,13 @@ export function deleteComment({commentId, parentId}){
     }
 }
 
+export const deletingComment = ({commentId}) => dispatch => (
+    API.deleteComment(commentId).then(res => {
+        return res.parentId
+    }).then(parentId => dispatch(deleteComment({commentId, parentId})))
+)
+
+
 export function editPost({postId, post}){
     return{
         type: EDIT_POST,
@@ -205,3 +220,12 @@ export function editComment({commentId, comment}){
         comment
     }
 }
+
+
+
+export const editingComment = ({commentId, comment}) => dispatch => (
+    API.editComment(commentId, comment).then(res => 
+        dispatch(editComment({commentId, comment:res}))    
+    )
+
+)

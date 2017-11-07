@@ -7,8 +7,9 @@ import PropTypes from 'prop-types'
 import * as Helpers from '../utils/helpers.js';
 import * as API from '../utils/api.js';
 import { connect } from 'react-redux'
-import {deleteComment, voteComment, editComment} from '../actions'
+import * as Actions from '../actions'
 import SerializeForm from 'form-serialize';
+import { bindActionCreators } from 'redux'
 
 class Comment extends Component {
 
@@ -21,23 +22,17 @@ class Comment extends Component {
     }
 
     deleteComment = (commentId) => {
-        API.deleteComment(commentId).then(res => {
-            return res.parentId
-        }).then(parentId => this.props.deleteComment({commentId, parentId}))
+       this.props.deletingComment({commentId})
     }
 
     delete = () => {
         if (window.confirm("WARNING: You are about to delete your comment. Are you sure?")) {
             this.deleteComment(this.props.content.id)
         }
-       
-       
     }
 
     vote = (direction) => {
-        API.voteComment(this.props.content.id, direction).then(res => {
-            this.props.voteComment(this.props.content.id, res.voteScore)
-        })
+       this.props.votingComment({commentId:this.props.content.id, direction})
     }
 
     edit = () => {
@@ -58,23 +53,31 @@ class Comment extends Component {
         }
         // post the appended value to the server
         let result = ""
-        API.editComment(this.props.content.id,appenedValues).then(res => {
-            result = res
-            // check the result and alert user
-            if(result === API.error){
-                alert("Sorry. It appears our server is down. Please try again later")
-            }
-            else{
-                alert("Your comment is successfully edited")
+        // API.editComment(this.props.content.id,appenedValues).then(res => {
+        //     result = res
+        //     // check the result and alert user
+        //     if(result === API.error){
+        //         alert("Sorry. It appears our server is down. Please try again later")
+        //     }
+        //     else{
+        //         alert("Your comment is successfully edited")
                 
-                this.setState(() => ({
-                    mode : "read"
+        //         this.setState(() => ({
+        //             mode : "read"
         
-                }))
-                this.props.editComment(this.props.content.id, res)
-            }
+        //         }))
+        //         this.props.editComment(this.props.content.id, res)
+        //     }
             
             
+        // })
+        this.props.editingComment({commentId:this.props.content.id, comment:appenedValues})
+        .then(res => {
+            alert("Your comment is successfully edited")
+            this.setState(() => ({
+                mode: "read"
+            }))
+
         })
         
     }
@@ -140,15 +143,7 @@ function mapStateToProps({ blogs, blog, comment }) {
 }
 
 function mapDispatchToProps(dispatch) {
-    return {
-        //deleteComment: (c, p) => dispatch(deleteComment({c, p}))
-        deleteComment: (commentId, parentId) => dispatch(deleteComment(commentId, parentId)),
-        voteComment: (commentId, voteScore) => dispatch(voteComment({commentId, voteScore})),
-        editComment: (commentId, comment) => dispatch(editComment({commentId, comment}))
-        
-    }
-
-
+    return bindActionCreators(Actions, dispatch)   
 }
 
 // export default Debug
