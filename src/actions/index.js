@@ -1,3 +1,6 @@
+import * as API from '../utils/api'
+
+
 export const ADD_POST = 'ADD_POST'
 export const ADD_COMMENT = 'ADD_COMMENT'
 export const RESET = 'RESET'
@@ -12,6 +15,7 @@ export const EDIT_COMMENT = "EDIT_COMMENT"
 export const SET_CURRENT_CATEGORY = "SET_CURRENT_CATEGORY"
 export const SET_CURRENT_BLOG = "SET_CURRENT_BLOG"
 export const SET_SORTING = "SET_SORTING"
+
 
 export function addPost({post}){
     return{
@@ -47,6 +51,13 @@ export function setCategories({categories}){
     }
 }
 
+export const fetchCategories = () => dispatch => (
+    API
+        .getAllCategories()
+        .then(categories => dispatch(setCategories({categories})))
+);
+
+
 export function setCurrentCategory({category}){
     return{
         type:SET_CURRENT_CATEGORY,
@@ -54,6 +65,11 @@ export function setCurrentCategory({category}){
     }
 
 }
+
+
+  
+
+
 
 export function setSorting({sorting}){
     return{

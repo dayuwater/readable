@@ -12,10 +12,14 @@ class MainPage extends Component{
         this.props.reset({})
     }
 
+    // getAllCategories = () => {
+    //     API.getAllCategories().then(res => 
+    //         this.props.setCategories({categories:res})
+    //     )
+    // }
+
     getAllCategories = () => {
-        API.getAllCategories().then(res => 
-            this.props.setCategories({categories:res})
-        )
+        this.props.fetchCategories()
     }
 
     getAllPosts = () => {
