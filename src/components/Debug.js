@@ -1,9 +1,8 @@
 import React, {Component} from 'react'
 import { connect } from 'react-redux'
 import * as API from '../utils/api'
-import { setCategories, addPost, reset, addComment,
-        votePost, voteComment, deletePost, deleteComment,
-        editPost, editComment } from '../actions'
+import * as Actions from '../actions'
+import {bindActionCreators} from 'redux'
 
 
 
@@ -163,25 +162,29 @@ class Debug extends Component{
 
 }
 
-function mapStateToProps({ food, calendar }) {
-    return {}
-}
+// function mapStateToProps({ food, calendar }) {
+//     return {}
+// }
 
 function mapDispatchToProps(dispatch) {
-  return {
-    setCategories: (categories) => dispatch(setCategories(categories)),
-    addPost: (post) => dispatch(addPost(post)),
-    addComment: (comment) => dispatch(addComment(comment)),
-    votePost: (postId, voteScore) => dispatch(votePost(postId, voteScore)),
-    voteComment: (commentId, voteScore) => dispatch(voteComment(commentId, voteScore)),
-    deletePost:(postId) => dispatch(deletePost(postId)),
-    deleteComment: (commentId, parentId) => dispatch(deleteComment(commentId, parentId)),
-    editPost:(postId, post) => dispatch(editPost(postId, post)),
-    editComment:(commentId, comment) => dispatch(editComment(commentId, comment))
-  }
+//   return {
+//     setCategories: (categories) => dispatch(setCategories(categories)),
+//     addPost: (post) => dispatch(addPost(post)),
+//     addComment: (comment) => dispatch(addComment(comment)),
+//     votePost: (postId, voteScore) => dispatch(votePost(postId, voteScore)),
+//     voteComment: (commentId, voteScore) => dispatch(voteComment(commentId, voteScore)),
+//     deletePost:(postId) => dispatch(deletePost(postId)),
+//     deleteComment: (commentId, parentId) => dispatch(deleteComment(commentId, parentId)),
+//     editPost:(postId, post) => dispatch(editPost(postId, post)),
+//     editComment:(commentId, comment) => dispatch(editComment(commentId, comment))
+//   }
+
+    return bindActionCreators(Actions, dispatch)
+
+  
 
 
 }
 
 // export default Debug
-export default connect(mapStateToProps, mapDispatchToProps)(Debug)
+export default connect(null, mapDispatchToProps)(Debug)

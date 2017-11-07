@@ -81,18 +81,7 @@ function mapStateToProps({ blogs, blog, comment }) {
 }
 
 function mapDispatchToProps(dispatch) {
-//   return {
-//     setCategories: (categories) => dispatch(setCategories(categories)),
-//     addPost: (post) => dispatch(addPost(post)),
-//     addComment: (comment) => dispatch(addComment(comment)),
-//     reset: () => dispatch(reset({})),
-//     setCurrentCategory: (category) => dispatch(setCurrentCategory({category})),
-   
-
-//   }
    return bindActionCreators(Actions, dispatch)
-
-
 }
 
 // export default Debug

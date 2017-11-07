@@ -49,6 +49,8 @@ function mapStateToProps({ blogs, blog, comment }) {
     }
 }
 
+
+// because there is only 1 action, I will just write it explicitly instead of using bindActionCreator
 function mapDispatchToProps(dispatch) {
     return {
         setSorting: (sorting) => dispatch(setSorting({sorting}))
