@@ -4,7 +4,6 @@ import TriangleUp from 'react-icons/lib/go/triangle-up';
 import TriangleDown from 'react-icons/lib/go/triangle-down';
 import TriangleLeft from 'react-icons/lib/go/triangle-left';
 import AddComment from './AddComment'
-import * as API from '../utils/api'
 import { connect } from 'react-redux'
 import * as Actions from '../actions'
 import {bindActionCreators} from 'redux'

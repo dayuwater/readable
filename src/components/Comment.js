@@ -5,7 +5,6 @@ import FaTrash from 'react-icons/lib/fa/trash';
 import FaEdit from 'react-icons/lib/fa/edit';
 import PropTypes from 'prop-types'
 import * as Helpers from '../utils/helpers.js';
-import * as API from '../utils/api.js';
 import { connect } from 'react-redux'
 import * as Actions from '../actions'
 import SerializeForm from 'form-serialize';

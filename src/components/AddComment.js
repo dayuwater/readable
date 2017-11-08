@@ -1,9 +1,10 @@
 import React, {Component} from 'react'
 import SerializeForm from 'form-serialize';
 import * as Helpers from '../utils/helpers'
-import * as API from '../utils/api'
+import * as Actions from '../actions/index'
 import { connect } from 'react-redux'
 import {addComment} from '../actions'
+import { bindActionCreators } from 'redux'
 
 
 class AddComment extends Component{
@@ -20,19 +21,11 @@ class AddComment extends Component{
         }
         // post the appended value to the server
         let result = ""
-        API.addComment(appenedValues).then(res => {
-            result = res
-            // check the result and alert user
-            if(result === API.error){
-                alert("Sorry. It appears our server is down. Please try again later")
-            }
-            else{
-                alert("Your comment is successfully posted")
-                this.props.addComment(res)
-            }
-
-            
+        
+        this.props.addingComment({comment:appenedValues}).then(_ => {
+            alert("Your comment is successfully posted")
         })
+
     }
     render(){
         return (
@@ -60,10 +53,7 @@ function mapStateToProps({ blogs, blog, comment }) {
 }
 
 function mapDispatchToProps(dispatch) {
-    return {
-        addComment: (comment) => dispatch(addComment({comment}))
-        
-    }
+   return bindActionCreators(Actions, dispatch)
 
 
 }

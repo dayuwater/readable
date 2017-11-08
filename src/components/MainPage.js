@@ -2,7 +2,6 @@ import React, {Component} from 'react'
 import BlogOverview from '../components/BlogOverview';
 import CategoryPage from './CategoryPage'
 import { connect } from 'react-redux'
-import * as API from '../utils/api'
 import { bindActionCreators } from 'redux'
 import * as Actions from '../actions'
 

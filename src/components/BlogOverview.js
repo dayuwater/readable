@@ -10,7 +10,7 @@ import {bindActionCreators} from 'redux'
 import { connect } from 'react-redux'
 import FaTrash from 'react-icons/lib/fa/trash';
 import FaEdit from 'react-icons/lib/fa/edit';
-import * as API from '../utils/api.js';
+
 
 class BlogOverview extends Component{
 
@@ -31,14 +31,12 @@ class BlogOverview extends Component{
 
     delete = () => {
         if(window.confirm("Are you sure you want to delete this post?"))
-            API.deletePost(this.props.blog.id).then( res => this.props.deletePost({postId:this.props.blog.id}))
+            this.props.deletingPost({postId:this.props.blog.id})
     }
 
    
     vote = (direction) => {
-        API.votePost(this.props.blog.id, direction).then(res => {
-            this.props.votePost({postId:this.props.blog.id, voteScore:res.voteScore})
-        })
+        this.props.votingPost({postId:this.props.blog.id, direction})
     }
 
 

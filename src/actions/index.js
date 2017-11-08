@@ -26,12 +26,21 @@ export function addPost({post}){
     }
 }
 
+export const addingPost = ({post}) => dispatch => (
+    API.addPost(post).then(_ => dispatch(addPost({post})))
+
+)
+
 export function addComment({comment}){
     return{
         type: ADD_COMMENT,
         comment
     }
 }
+
+export const addingComment = ({comment}) => dispatch => (
+    API.addComment(comment).then(res => dispatch(addComment({comment:res})))
+)
 
 export const fetchComments = ({postId}) => dispatch => {
     API
@@ -212,6 +221,10 @@ export function editPost({postId, post}){
     }
 
 }
+
+export const editingPost = ({postId, post}) => dispatch => (
+    API.editPost(postId, post).then(_ => dispatch(editPost({postId, post})))
+)
 
 export function editComment({commentId, comment}){
     return{

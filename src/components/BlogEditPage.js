@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import SerializeForm from 'form-serialize';
 import * as Helpers from '../utils/helpers'
-import * as API from '../utils/api'
 import TriangleLeft from 'react-icons/lib/go/triangle-left';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import * as Actions from '../actions/index'
 
 
 
@@ -20,22 +21,19 @@ class BlogEditPage extends Component{
         // if this is editing
         if(this.props.currentBlogId){
             // select title and body from the post
+            const id = this.props.currentBlogId
+            const category = this.props.category
             const selectedValues = {
                 title: values.title,
                 body: values.body
             }
-            API.editPost(this.props.currentBlogId,selectedValues).then(res => {
-                result = res
-                // check the result and alert user
-                if(result === API.error){
-                    alert("Sorry. It appears our server is down. Please try again later")
-                }
-                else{
-                    alert("Your blog is successfully edited")
-                    this.props.history.push('/');
-                }
-                
+            
+            this.props.editingPost({postId:this.props.currentBlogId, post:selectedValues})
+            .then(_ => {
+                alert("Your blog is successfully edited")
+                this.props.history.push("/");
             })
+            
 
         }
         // if this is creating
@@ -47,17 +45,9 @@ class BlogEditPage extends Component{
                 timestamp: Date.now()
             }
 
-            API.addPost(appendedValues).then(res => {
-                result = res
-                // check the result and alert user
-                if(result === API.error){
-                    alert("Sorry. It appears our server is down. Please try again later")
-                }
-                else{
-                    alert("Your blog is successfully posted")
-                    this.props.history.push('/');
-                }
-                
+            this.props.addingPost({post:appendedValues}).then(_ => {
+                alert("Your blog is successfully posted")
+                this.props.history.push("/");
             })
         }
         
@@ -137,9 +127,7 @@ export function mapStateToProps({ blogs, blog, comment }, props){
 }
 
 export function mapDispatchToProps(dispatch){
-    return {
-
-    }
+    return bindActionCreators(Actions, dispatch)
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(BlogEditPage)
